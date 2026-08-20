@@ -27,29 +27,11 @@ export default async function BlogPostPage({ params }: PageProps) {
     <Layout>
       <article>
         <h1 className="mb-4">{post.title}</h1>
-        {post.stickyLine && (
-          <p className="mb-6 text-muted">{post.stickyLine}</p>
-        )}
         {post.body ? (
           <div className="mb-8 text-sm">
-            <Markdown stickyLine={post.stickyLine}>
-              {post.body}
-            </Markdown>
+            <Markdown>{post.body}</Markdown>
           </div>
         ) : null}
-        {post.faq && post.faq.length > 0 && (
-          <section className="mb-8">
-            <h2 className="mb-4">FAQ</h2>
-            <dl className="space-y-4">
-              {post.faq.map((item) => (
-                <div key={item.question}>
-                  <dt className="font-medium">{item.question}</dt>
-                  <dd className="text-muted">{item.answer}</dd>
-                </div>
-              ))}
-            </dl>
-          </section>
-        )}
       </article>
     </Layout>
   );
