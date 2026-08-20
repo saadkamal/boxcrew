@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { CopyButton } from "@/components";
-import { jobs, getJobBySlug } from "@/content";
+import { jobs, getJobBySlug, getSkillBySlug } from "@/content";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -27,81 +27,116 @@ export default async function JobPage({ params }: PageProps) {
   const job = getJobBySlug(slug);
   if (!job) notFound();
 
+  const primarySkill = getSkillBySlug(job.primarySkill);
+  const currentIndex = jobs.findIndex((j) => j.slug === slug);
+  const prevJob = currentIndex > 0 ? jobs[currentIndex - 1] : null;
+  const nextJob = currentIndex < jobs.length - 1 ? jobs[currentIndex + 1] : null;
+
   return (
-    <article>
-      <h1 className="text-3xl font-bold mb-2">{job.title}</h1>
-      <p className="text-lg text-muted mb-8">{job.description}</p>
+    <article className="prose">
+      <span className="text-label">JOB</span>
+      <h1 className="text-headline mt-3 mb-3">{job.title}</h1>
+      <p className="text-body text-foreground-muted">{job.description}</p>
 
-      <section className="mb-8 p-4 bg-card border border-border rounded-lg">
-        <h2 className="font-semibold mb-3">Bot Persona</h2>
-        <p className="text-muted">{job.botDescription}</p>
+      <section className="mt-8 p-5 bg-surface border border-border rounded-lg">
+        <h3 className="text-small font-medium text-foreground mb-2">Bot Persona</h3>
+        <p className="text-small text-foreground-muted m-0">{job.botDescription}</p>
       </section>
 
-      <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-3">Outcome</h2>
-        <p className="text-muted">{job.outcome}</p>
+      <section>
+        <h2>Outcome</h2>
+        <p className="text-small text-foreground-muted">{job.outcome}</p>
       </section>
 
-      <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-3">First Task</h2>
-        <p className="text-muted">{job.firstTask}</p>
+      <section>
+        <h2>First Task</h2>
+        <p className="text-small text-foreground-muted">{job.firstTask}</p>
       </section>
 
-      <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-3">Primary Skill</h2>
+      <section>
+        <h2>Primary Skill</h2>
         <Link
           href={`/skills/${job.primarySkill}`}
-          className="inline-block px-3 py-1.5 bg-card border border-border rounded hover:border-accent transition-colors"
+          className="inline-flex items-center gap-2 px-3 py-2 border border-border rounded-lg text-small text-foreground-muted hover:border-foreground-subtle hover:text-foreground transition-colors"
         >
-          {job.primarySkill}
+          <span className="text-label">SKILL</span>
+          <span>{primarySkill?.title ?? job.primarySkill}</span>
         </Link>
       </section>
 
-      <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-3">Sources</h2>
-        <ul className="list-disc list-inside space-y-1 text-muted">
+      <section>
+        <h2>Sources</h2>
+        <ul className="text-small text-foreground-muted">
           {job.sources.map((source, i) => (
             <li key={i}>{source}</li>
           ))}
         </ul>
       </section>
 
-      <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-3">Routine</h2>
-        <p className="text-muted">{job.routine}</p>
+      <section>
+        <h2>Routine</h2>
+        <p className="text-small text-foreground-muted">{job.routine}</p>
       </section>
 
-      <section className="mb-8">
-        <div className="flex items-center justify-between mb-3">
-          <h2 className="text-xl font-semibold">Copy-Paste Prompt</h2>
+      <section>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="m-0">Copy-Paste Prompt</h2>
           <CopyButton text={job.copyPaste} />
         </div>
-        <pre className="p-4 bg-card border border-border rounded-lg overflow-x-auto text-sm text-muted whitespace-pre-wrap font-mono">
-          {job.copyPaste}
-        </pre>
+        <div className="command-block">
+          <div className="command-block-header">
+            <span className="text-label">PROMPT</span>
+          </div>
+          <div className="command-block-content">
+            {job.copyPaste}
+          </div>
+        </div>
       </section>
 
-      <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-3">Reviewable Artifact</h2>
-        <p className="text-muted">{job.reviewableArtifact}</p>
+      <section>
+        <h2>Reviewable Artifact</h2>
+        <p className="text-small text-foreground-muted">{job.reviewableArtifact}</p>
       </section>
 
-      <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-3">Never List</h2>
-        <ul className="space-y-2">
+      <section>
+        <h2>Never List</h2>
+        <ul className="space-y-2 text-small list-none p-0">
           {job.neverList.map((item, i) => (
-            <li key={i} className="flex items-start gap-2 text-muted">
-              <span className="text-red-500 flex-shrink-0">✕</span>
+            <li key={i} className="flex items-start gap-2 text-foreground-muted m-0">
+              <span className="text-red-500 flex-shrink-0 text-sm">×</span>
               <span>{item}</span>
             </li>
           ))}
         </ul>
       </section>
 
-      <section className="p-4 bg-card border border-border rounded-lg">
-        <h2 className="font-semibold mb-3">Approval & Stale Data</h2>
-        <p className="text-sm text-muted">{job.approvalAndStaleData}</p>
+      <section className="mt-12 p-5 bg-surface border border-border rounded-lg">
+        <h3 className="text-small font-medium text-foreground mb-2">Approval &amp; Stale Data</h3>
+        <p className="text-small text-foreground-muted m-0">{job.approvalAndStaleData}</p>
       </section>
+
+      <nav className="mt-16 pt-8 border-t border-border flex items-center justify-between gap-4">
+        {prevJob ? (
+          <Link
+            href={`/jobs/${prevJob.slug}`}
+            className="group text-small text-foreground-subtle hover:text-foreground-muted"
+          >
+            <span className="text-caption block mb-1">Previous</span>
+            <span className="group-hover:text-foreground transition-colors">{prevJob.title}</span>
+          </Link>
+        ) : (
+          <div />
+        )}
+        {nextJob && (
+          <Link
+            href={`/jobs/${nextJob.slug}`}
+            className="group text-small text-foreground-subtle hover:text-foreground-muted text-right"
+          >
+            <span className="text-caption block mb-1">Next</span>
+            <span className="group-hover:text-foreground transition-colors">{nextJob.title}</span>
+          </Link>
+        )}
+      </nav>
     </article>
   );
 }

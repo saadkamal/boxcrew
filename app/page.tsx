@@ -1,4 +1,5 @@
-import { Layout, Card, CardGrid, Search } from "@/components";
+import Link from "next/link";
+import { PageLayout, Search, FeaturedCard } from "@/components";
 import { setupGuides, skills, jobs, industries } from "@/content";
 
 const searchItems = [
@@ -28,93 +29,116 @@ const searchItems = [
   })),
 ] as const;
 
+const featuredGuides = setupGuides.slice(0, 3);
+const featuredJobs = jobs.slice(0, 4);
+
 export default function HomePage() {
   return (
-    <Layout>
-      <section className="mb-12">
-        <h1 className="text-3xl font-bold mb-4">Boxcrew</h1>
-        <p className="text-lg text-muted max-w-2xl">
-          Grok Bot use-case directory. Skills, jobs, and setup guides. Browse to
-          find the right configuration for your team.
+    <PageLayout>
+      <section className="min-h-[70vh] flex flex-col items-center justify-center px-6 py-24">
+        <h1 className="text-display text-foreground text-center text-balance">
+          Boxcrew
+        </h1>
+        <p className="mt-6 text-lg text-foreground-muted text-center max-w-xl text-balance">
+          Grok Bot use-case directory. Skills, jobs, and setup guides.
         </p>
+        
+        <div className="mt-12 w-full">
+          <Search 
+            items={searchItems} 
+            placeholder="Search skills, jobs, guides..." 
+            heroMode 
+          />
+        </div>
       </section>
 
-      <section className="mb-12">
-        <h2 className="text-xl font-semibold mb-4">Search</h2>
-        <Search items={searchItems} placeholder="Search skills, jobs, setup guides..." />
-      </section>
-
-      <section className="mb-12">
-        <h2 className="text-xl font-semibold mb-4">Getting Started</h2>
-        <p className="text-muted mb-4">
-          New to Grok Bot? Start with these setup guides.
-        </p>
-        <CardGrid>
-          {setupGuides.slice(0, 3).map((guide) => (
-            <Card
+      <section className="max-w-6xl mx-auto px-6 py-16 border-t border-border">
+        <div className="flex items-end justify-between mb-8">
+          <div>
+            <span className="text-label">Getting Started</span>
+            <h2 className="text-headline mt-2">Setup Guides</h2>
+          </div>
+          <Link 
+            href="/setup/install-plan" 
+            className="text-small text-foreground-subtle hover:text-foreground-muted transition-colors"
+          >
+            View all guides
+          </Link>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {featuredGuides.map((guide) => (
+            <FeaturedCard
               key={guide.slug}
               href={`/setup/${guide.slug}`}
               title={guide.title}
               description={guide.description}
-              badge="Setup"
+              label="GUIDE"
             />
           ))}
-        </CardGrid>
+        </div>
       </section>
 
-      <section className="mb-12">
-        <h2 className="text-xl font-semibold mb-4">Popular Skills</h2>
-        <CardGrid>
-          {skills.slice(0, 6).map((skill) => (
-            <Card
-              key={skill.slug}
-              href={`/skills/${skill.slug}`}
-              title={skill.title}
-              description={skill.description}
-              badge="Skill"
-            />
-          ))}
-        </CardGrid>
-      </section>
-
-      <section className="mb-12">
-        <h2 className="text-xl font-semibold mb-4">Jobs by Role</h2>
-        <CardGrid>
-          {jobs.map((job) => (
-            <Card
+      <section className="max-w-6xl mx-auto px-6 py-16 border-t border-border">
+        <div className="flex items-end justify-between mb-8">
+          <div>
+            <span className="text-label">Role Archetypes</span>
+            <h2 className="text-headline mt-2">Jobs</h2>
+          </div>
+          <Link 
+            href="/jobs/sales-outbound" 
+            className="text-small text-foreground-subtle hover:text-foreground-muted transition-colors"
+          >
+            View all jobs
+          </Link>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2">
+          {featuredJobs.map((job) => (
+            <FeaturedCard
               key={job.slug}
               href={`/jobs/${job.slug}`}
               title={job.title}
               description={job.description}
-              badge="Job"
+              label="JOB"
             />
           ))}
-        </CardGrid>
+        </div>
       </section>
 
-      <section className="mb-12">
-        <h2 className="text-xl font-semibold mb-4">Industries</h2>
-        <CardGrid>
+      <section className="max-w-6xl mx-auto px-6 py-16 border-t border-border">
+        <div className="flex items-end justify-between mb-8">
+          <div>
+            <span className="text-label">By vertical</span>
+            <h2 className="text-headline mt-2">Industries</h2>
+          </div>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {industries.map((industry) => (
-            <Card
+            <Link
               key={industry.slug}
               href={`/industries/${industry.slug}`}
-              title={industry.title}
-              description={industry.description}
-              badge="Industry"
-            />
+              className="group block p-5 border border-border rounded-lg hover:border-foreground-subtle transition-colors"
+            >
+              <h3 className="text-small font-medium text-foreground group-hover:text-accent transition-colors">
+                {industry.title}
+              </h3>
+              <p className="mt-1 text-caption text-foreground-subtle">
+                {industry.jobSlugs.length} job{industry.jobSlugs.length !== 1 ? "s" : ""}
+              </p>
+            </Link>
           ))}
-        </CardGrid>
+        </div>
       </section>
 
-      <section className="p-4 bg-card border border-border rounded-lg">
-        <h2 className="font-semibold mb-2">Key Principles</h2>
-        <p className="text-sm text-muted">
-          Never auto-send, auto-spend, or auto-publish. Every outbound action
-          requires human approval. Grok Bot is your research assistant, draft
-          generator, and data organizer—not an autonomous actor.
-        </p>
+      <section className="max-w-6xl mx-auto px-6 py-16 border-t border-border">
+        <div className="max-w-2xl">
+          <span className="text-label">Principles</span>
+          <p className="mt-4 text-small text-foreground-muted leading-relaxed">
+            Never auto-send, auto-spend, or auto-publish. Every outbound action
+            requires human approval. Grok Bot is your research assistant, draft
+            generator, and data organizer—not an autonomous actor.
+          </p>
+        </div>
       </section>
-    </Layout>
+    </PageLayout>
   );
 }

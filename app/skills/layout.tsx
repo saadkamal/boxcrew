@@ -9,9 +9,9 @@ const sidebarItems = skills.map((s) => ({
 export default function SkillsLayout({ children }: { children: React.ReactNode }) {
   return (
     <Layout>
-      <div className="flex gap-8">
+      <div className="flex gap-12">
         <Sidebar basePath="/skills" items={sidebarItems} title="Skills" />
-        <div className="flex-1 min-w-0">{children}</div>
+        <div className="flex-1 min-w-0 max-w-3xl">{children}</div>
       </div>
     </Layout>
   );

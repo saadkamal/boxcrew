@@ -4,14 +4,17 @@ import { Layout } from "@/components";
 export default function NotFound() {
   return (
     <Layout>
-      <div className="text-center py-16">
-        <h1 className="text-4xl font-bold mb-4">404</h1>
-        <p className="text-muted mb-6">Page not found.</p>
+      <div className="flex flex-col items-center justify-center min-h-[50vh] text-center">
+        <span className="text-label mb-4">404</span>
+        <h1 className="text-headline mb-4">Page not found</h1>
+        <p className="text-body text-foreground-muted mb-8 max-w-md">
+          The page you&apos;re looking for doesn&apos;t exist or has been moved.
+        </p>
         <Link
           href="/"
-          className="inline-block px-4 py-2 bg-accent text-background rounded hover:opacity-90 transition-opacity"
+          className="inline-flex items-center px-4 py-2 text-small text-foreground border border-border rounded-lg hover:border-foreground-subtle transition-colors"
         >
-          Back to Home
+          Return home
         </Link>
       </div>
     </Layout>

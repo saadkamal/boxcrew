@@ -1,8 +1,8 @@
-export { Layout } from "./layout";
+export { Layout, PageLayout } from "./layout";
 export { Navigation } from "./navigation";
 export { Footer } from "./footer";
-export { Card, CardGrid } from "./card";
-export { CopyButton } from "./copy-button";
+export { Card } from "./card";
 export { Search } from "./search";
 export { Sidebar } from "./sidebar";
+export { CopyButton } from "./copy-button";
 export { Markdown } from "./markdown";

@@ -30,42 +30,74 @@ export default async function IndustryPage({ params }: PageProps) {
     .map((jobSlug) => getJobBySlug(jobSlug))
     .filter((job): job is NonNullable<typeof job> => job !== undefined);
 
+  const currentIndex = industries.findIndex((i) => i.slug === slug);
+  const prevIndustry = currentIndex > 0 ? industries[currentIndex - 1] : null;
+  const nextIndustry = currentIndex < industries.length - 1 ? industries[currentIndex + 1] : null;
+
   return (
-    <article>
-      <h1 className="text-3xl font-bold mb-2">{industry.title}</h1>
-      <p className="text-lg text-muted mb-8">{industry.description}</p>
+    <article className="prose">
+      <span className="text-label">INDUSTRY</span>
+      <h1 className="text-headline mt-3 mb-3">{industry.title}</h1>
+      <p className="text-body text-foreground-muted">{industry.description}</p>
 
       <section>
-        <h2 className="text-xl font-semibold mb-4">Relevant Jobs</h2>
-        <div className="space-y-4">
+        <h2>Relevant Jobs</h2>
+        <div className="space-y-3 mt-4">
           {relevantJobs.map((job) => (
             <Link
               key={job.slug}
               href={`/jobs/${job.slug}`}
-              className="block p-4 bg-card border border-border rounded-lg hover:border-accent transition-colors hover:no-underline group"
+              className="group block p-4 border border-border rounded-lg hover:border-foreground-subtle transition-colors"
             >
-              <h3 className="font-medium text-foreground group-hover:text-accent transition-colors">
-                {job.title}
-              </h3>
-              <p className="mt-1 text-sm text-muted">{job.description}</p>
-              <div className="mt-3 flex items-center gap-2 text-xs text-muted">
-                <span className="px-2 py-0.5 bg-border rounded">
-                  Primary: {job.primarySkill}
-                </span>
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <h3 className="text-small font-medium text-foreground group-hover:text-accent transition-colors m-0">
+                    {job.title}
+                  </h3>
+                  <p className="mt-1 text-caption text-foreground-muted m-0">{job.description}</p>
+                </div>
+                <span className="text-label flex-shrink-0">JOB</span>
+              </div>
+              <div className="mt-3 flex items-center gap-2">
+                <span className="text-label">Primary skill:</span>
+                <span className="text-caption text-foreground-subtle">{job.primarySkill}</span>
               </div>
             </Link>
           ))}
         </div>
       </section>
 
-      <section className="mt-8 p-4 bg-card border border-border rounded-lg">
-        <h2 className="font-semibold mb-2">Industry Notes</h2>
-        <p className="text-sm text-muted">
+      <section className="mt-12 p-5 bg-surface border border-border rounded-lg">
+        <h3 className="text-small font-medium text-foreground mb-2">Industry Notes</h3>
+        <p className="text-small text-foreground-muted m-0">
           These jobs are curated for {industry.title.toLowerCase()} teams. Each
           job includes specific prompts, approval workflows, and never-do lists
           tailored to industry requirements.
         </p>
       </section>
+
+      <nav className="mt-16 pt-8 border-t border-border flex items-center justify-between gap-4">
+        {prevIndustry ? (
+          <Link
+            href={`/industries/${prevIndustry.slug}`}
+            className="group text-small text-foreground-subtle hover:text-foreground-muted"
+          >
+            <span className="text-caption block mb-1">Previous</span>
+            <span className="group-hover:text-foreground transition-colors">{prevIndustry.title}</span>
+          </Link>
+        ) : (
+          <div />
+        )}
+        {nextIndustry && (
+          <Link
+            href={`/industries/${nextIndustry.slug}`}
+            className="group text-small text-foreground-subtle hover:text-foreground-muted text-right"
+          >
+            <span className="text-caption block mb-1">Next</span>
+            <span className="group-hover:text-foreground transition-colors">{nextIndustry.title}</span>
+          </Link>
+        )}
+      </nav>
     </article>
   );
 }
