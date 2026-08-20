@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Layout } from "@/components";
+import { Layout, Markdown } from "@/components";
 import { blogPosts, getBlogPostBySlug } from "@/content";
 
 interface PageProps {
@@ -31,8 +31,10 @@ export default async function BlogPostPage({ params }: PageProps) {
           <p className="mb-6 text-muted">{post.stickyLine}</p>
         )}
         {post.body ? (
-          <div className="mb-8 whitespace-pre-wrap text-sm leading-7">
-            {post.body}
+          <div className="mb-8 text-sm">
+            <Markdown stickyLine={post.stickyLine}>
+              {post.body}
+            </Markdown>
           </div>
         ) : null}
         {post.faq && post.faq.length > 0 && (
