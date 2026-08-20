@@ -36,9 +36,8 @@ const searchItems = [
 
 const featuredItems = [
   { label: "Setup", title: "Install Plan", href: "/setup/install-plan" },
-  { label: "Job", title: "Sales Outbound", href: "/jobs/sales-outbound" },
-  { label: "Skill", title: "Account Health Watch", href: "/skills/account-health-watch" },
-  { label: "Blog", title: "Does Cursor Ultra include Grok Bot?", href: "/blog/does-cursor-ultra-include-grok-bot" },
+  { label: "Job", title: "Chief of staff", href: "/jobs/chief-of-staff" },
+  { label: "Collision", title: "Grok vs Grok Bot", href: "/grok-vs-grok-bot" },
 ];
 
 function HomeContent() {
@@ -98,12 +97,12 @@ function HomeContent() {
 
       <main className="flex-1 flex flex-col items-center justify-center px-6 pt-24">
         <div className="w-full max-w-[720px] mx-auto">
-          <p
-            className="text-[15px] leading-[24px] text-center mb-12"
-            style={{ color: "#A8A49A" }}
+          <h1
+            className="text-[40px] leading-[48px] font-medium text-center mb-12"
+            style={{ color: "#F2F0EA", letterSpacing: "-0.03em" }}
           >
-            Grok Bot is a Cursor desktop and iOS 18 app for named teammates. Each named Bot has a job, skills, and routines. They share one cloud Linux computer called the box: browser, files, terminal. Plugins and MCP are structured tools. A routine fires on a schedule or an event. A skill is the how. You review send, spend, and delete.
-          </p>
+            Grok Bot setups you paste
+          </h1>
 
           <Search
             items={searchItems}
@@ -123,7 +122,7 @@ function HomeContent() {
                 style={{ borderBottom: i < featuredItems.length - 1 ? "1px solid #2A2A2E" : "none" }}
               >
                 <span
-                  className="text-[10px] font-medium tracking-[0.1em] uppercase w-14"
+                  className="text-[10px] font-medium tracking-[0.1em] uppercase w-16"
                   style={{ color: "#6E6A62" }}
                 >
                   {item.label}
