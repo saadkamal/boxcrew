@@ -1,6 +1,5 @@
 /**
  * Content catalog index.
- * Exports all content types and collections for use across the app.
  */
 
 export * from "./types";
@@ -9,3 +8,9 @@ export { skills, getSkillBySlug } from "./skills";
 export { jobs, getJobBySlug } from "./jobs";
 export { industries, getIndustryBySlug } from "./industries";
 export { pages, getPageBySlug } from "./pages";
+export {
+  blogPosts,
+  getBlogPostBySlug,
+  getBlogPostsByCategory,
+  BLOG_CATEGORIES,
+} from "./blog";
