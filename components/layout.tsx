@@ -4,24 +4,20 @@ import { Footer } from "./footer";
 
 interface LayoutProps {
   children: React.ReactNode;
-  fullBleed?: boolean;
 }
 
-export function Layout({ children, fullBleed = false }: LayoutProps) {
+export function Layout({ children }: LayoutProps) {
   return (
     <>
-      <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
-        <div className="max-w-6xl mx-auto px-6 h-12 flex items-center justify-between">
-          <Link 
-            href="/" 
-            className="text-[0.9375rem] font-medium text-foreground tracking-tight hover:text-foreground"
-          >
+      <header className="sticky top-0 z-50 border-b border-border/50 bg-background/95 backdrop-blur-sm">
+        <div className="max-w-[1200px] mx-auto px-6 h-11 flex items-center justify-between">
+          <Link href="/" className="text-[15px] font-medium text-foreground tracking-[-0.01em]">
             Boxcrew
           </Link>
           <Navigation />
         </div>
       </header>
-      <main className={fullBleed ? "" : "max-w-6xl mx-auto px-6 py-12 w-full"}>
+      <main className="max-w-[1200px] mx-auto px-6 py-12 w-full">
         {children}
       </main>
       <Footer />
@@ -29,19 +25,12 @@ export function Layout({ children, fullBleed = false }: LayoutProps) {
   );
 }
 
-interface PageLayoutProps {
-  children: React.ReactNode;
-}
-
-export function PageLayout({ children }: PageLayoutProps) {
+export function PageLayout({ children }: LayoutProps) {
   return (
     <>
-      <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
-        <div className="max-w-6xl mx-auto px-6 h-12 flex items-center justify-between">
-          <Link 
-            href="/" 
-            className="text-[0.9375rem] font-medium text-foreground tracking-tight hover:text-foreground"
-          >
+      <header className="sticky top-0 z-50 border-b border-border/50 bg-background/95 backdrop-blur-sm">
+        <div className="max-w-[1200px] mx-auto px-6 h-11 flex items-center justify-between">
+          <Link href="/" className="text-[15px] font-medium text-foreground tracking-[-0.01em]">
             Boxcrew
           </Link>
           <Navigation />

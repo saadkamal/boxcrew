@@ -33,18 +33,20 @@ export default async function SkillPage({ params }: PageProps) {
 
   return (
     <article className="prose">
-      <span className="text-label">SKILL</span>
-      <h1 className="text-headline mt-3 mb-3">{skill.title}</h1>
-      <p className="text-body text-foreground-muted">{skill.description}</p>
+      <span className="text-[10px] font-medium tracking-[0.12em] text-foreground-subtle uppercase">
+        Skill
+      </span>
+      <h1 className="mt-4 mb-6">{skill.title}</h1>
+      <p className="text-[15px] leading-[24px] text-foreground-muted">{skill.description}</p>
 
       <section>
         <h2>Outcome</h2>
-        <p className="text-small text-foreground-muted">{skill.outcome}</p>
+        <p className="text-[15px] leading-[24px] text-foreground-muted">{skill.outcome}</p>
       </section>
 
       <section>
         <h2>Sources</h2>
-        <ul className="text-small text-foreground-muted">
+        <ul className="text-[15px] leading-[24px] text-foreground-muted">
           {skill.sources.map((source, i) => (
             <li key={i}>{source}</li>
           ))}
@@ -58,7 +60,9 @@ export default async function SkillPage({ params }: PageProps) {
         </div>
         <div className="command-block">
           <div className="command-block-header">
-            <span className="text-label">PROMPT</span>
+            <span className="text-[10px] font-medium tracking-[0.1em] text-foreground-subtle uppercase">
+              Prompt
+            </span>
           </div>
           <div className="command-block-content">
             {skill.copyPaste}
@@ -68,22 +72,22 @@ export default async function SkillPage({ params }: PageProps) {
 
       <section>
         <h2>Reviewable Artifact</h2>
-        <p className="text-small text-foreground-muted">{skill.reviewableArtifact}</p>
+        <p className="text-[15px] leading-[24px] text-foreground-muted">{skill.reviewableArtifact}</p>
       </section>
 
-      <section className="mt-12 p-5 bg-surface border border-border rounded-lg">
-        <h3 className="text-small font-medium text-foreground mb-2">Approval &amp; Stale Data</h3>
-        <p className="text-small text-foreground-muted m-0">{skill.approvalAndStaleData}</p>
+      <section className="mt-12 p-5 border border-border rounded-lg">
+        <h3 className="text-[15px] font-medium text-foreground mb-2 mt-0">Approval &amp; Stale Data</h3>
+        <p className="text-[14px] leading-[22px] text-foreground-muted m-0">{skill.approvalAndStaleData}</p>
       </section>
 
       <nav className="mt-16 pt-8 border-t border-border flex items-center justify-between gap-4">
         {prevSkill ? (
           <Link
             href={`/skills/${prevSkill.slug}`}
-            className="group text-small text-foreground-subtle hover:text-foreground-muted"
+            className="group"
           >
-            <span className="text-caption block mb-1">Previous</span>
-            <span className="group-hover:text-foreground transition-colors">{prevSkill.title}</span>
+            <span className="text-[11px] text-foreground-subtle block mb-1">Previous</span>
+            <span className="text-[14px] text-foreground-muted group-hover:text-foreground transition-colors">{prevSkill.title}</span>
           </Link>
         ) : (
           <div />
@@ -91,10 +95,10 @@ export default async function SkillPage({ params }: PageProps) {
         {nextSkill && (
           <Link
             href={`/skills/${nextSkill.slug}`}
-            className="group text-small text-foreground-subtle hover:text-foreground-muted text-right"
+            className="group text-right"
           >
-            <span className="text-caption block mb-1">Next</span>
-            <span className="group-hover:text-foreground transition-colors">{nextSkill.title}</span>
+            <span className="text-[11px] text-foreground-subtle block mb-1">Next</span>
+            <span className="text-[14px] text-foreground-muted group-hover:text-foreground transition-colors">{nextSkill.title}</span>
           </Link>
         )}
       </nav>

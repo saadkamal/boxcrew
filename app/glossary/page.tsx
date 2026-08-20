@@ -14,16 +14,18 @@ export default function GlossaryPage() {
 
   return (
     <Layout>
-      <article className="prose max-w-3xl">
-        <span className="text-label">REFERENCE</span>
-        <h1 className="text-headline mt-3 mb-3">{page.title}</h1>
-        <p className="text-body text-foreground-muted">{page.description}</p>
+      <article className="prose max-w-[680px]">
+        <span className="text-[10px] font-medium tracking-[0.12em] text-foreground-subtle uppercase">
+          Reference
+        </span>
+        <h1 className="mt-4 mb-6">{page.title}</h1>
+        <p className="text-[15px] leading-[24px] text-foreground-muted">{page.description}</p>
 
-        <dl className="space-y-4 mt-8">
+        <dl className="border-t border-border mt-8">
           {page.sections.map((section, index) => (
-            <div key={index} className="p-5 border border-border rounded-lg">
-              <dt className="text-small font-medium text-foreground mb-2">{section.heading}</dt>
-              <dd className="text-small text-foreground-muted m-0">{section.content}</dd>
+            <div key={index} className="py-4 border-b border-border">
+              <dt className="text-[15px] font-medium text-foreground mb-2">{section.heading}</dt>
+              <dd className="text-[14px] leading-[22px] text-foreground-muted m-0">{section.content}</dd>
             </div>
           ))}
         </dl>

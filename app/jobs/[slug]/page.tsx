@@ -34,39 +34,41 @@ export default async function JobPage({ params }: PageProps) {
 
   return (
     <article className="prose">
-      <span className="text-label">JOB</span>
-      <h1 className="text-headline mt-3 mb-3">{job.title}</h1>
-      <p className="text-body text-foreground-muted">{job.description}</p>
+      <span className="text-[10px] font-medium tracking-[0.12em] text-foreground-subtle uppercase">
+        Job
+      </span>
+      <h1 className="mt-4 mb-6">{job.title}</h1>
+      <p className="text-[15px] leading-[24px] text-foreground-muted">{job.description}</p>
 
-      <section className="mt-8 p-5 bg-surface border border-border rounded-lg">
-        <h3 className="text-small font-medium text-foreground mb-2">Bot Persona</h3>
-        <p className="text-small text-foreground-muted m-0">{job.botDescription}</p>
+      <section className="mt-8 p-5 border border-border rounded-lg">
+        <h3 className="text-[15px] font-medium text-foreground mb-2 mt-0">Bot Persona</h3>
+        <p className="text-[14px] leading-[22px] text-foreground-muted m-0">{job.botDescription}</p>
       </section>
 
       <section>
         <h2>Outcome</h2>
-        <p className="text-small text-foreground-muted">{job.outcome}</p>
+        <p className="text-[15px] leading-[24px] text-foreground-muted">{job.outcome}</p>
       </section>
 
       <section>
         <h2>First Task</h2>
-        <p className="text-small text-foreground-muted">{job.firstTask}</p>
+        <p className="text-[15px] leading-[24px] text-foreground-muted">{job.firstTask}</p>
       </section>
 
       <section>
         <h2>Primary Skill</h2>
         <Link
           href={`/skills/${job.primarySkill}`}
-          className="inline-flex items-center gap-2 px-3 py-2 border border-border rounded-lg text-small text-foreground-muted hover:border-foreground-subtle hover:text-foreground transition-colors"
+          className="inline-flex items-center gap-3 px-4 py-2.5 border border-border rounded-lg text-[14px] text-foreground-muted hover:border-foreground-subtle hover:text-foreground transition-colors"
         >
-          <span className="text-label">SKILL</span>
+          <span className="text-[10px] font-medium tracking-[0.1em] text-foreground-subtle uppercase">Skill</span>
           <span>{primarySkill?.title ?? job.primarySkill}</span>
         </Link>
       </section>
 
       <section>
         <h2>Sources</h2>
-        <ul className="text-small text-foreground-muted">
+        <ul className="text-[15px] leading-[24px] text-foreground-muted">
           {job.sources.map((source, i) => (
             <li key={i}>{source}</li>
           ))}
@@ -75,7 +77,7 @@ export default async function JobPage({ params }: PageProps) {
 
       <section>
         <h2>Routine</h2>
-        <p className="text-small text-foreground-muted">{job.routine}</p>
+        <p className="text-[15px] leading-[24px] text-foreground-muted">{job.routine}</p>
       </section>
 
       <section>
@@ -85,7 +87,9 @@ export default async function JobPage({ params }: PageProps) {
         </div>
         <div className="command-block">
           <div className="command-block-header">
-            <span className="text-label">PROMPT</span>
+            <span className="text-[10px] font-medium tracking-[0.1em] text-foreground-subtle uppercase">
+              Prompt
+            </span>
           </div>
           <div className="command-block-content">
             {job.copyPaste}
@@ -95,34 +99,34 @@ export default async function JobPage({ params }: PageProps) {
 
       <section>
         <h2>Reviewable Artifact</h2>
-        <p className="text-small text-foreground-muted">{job.reviewableArtifact}</p>
+        <p className="text-[15px] leading-[24px] text-foreground-muted">{job.reviewableArtifact}</p>
       </section>
 
       <section>
         <h2>Never List</h2>
-        <ul className="space-y-2 text-small list-none p-0">
+        <ul className="space-y-2 text-[15px] list-none p-0">
           {job.neverList.map((item, i) => (
-            <li key={i} className="flex items-start gap-2 text-foreground-muted m-0">
-              <span className="text-red-500 flex-shrink-0 text-sm">×</span>
+            <li key={i} className="flex items-start gap-3 text-foreground-muted m-0">
+              <span className="text-red-500/80 flex-shrink-0">×</span>
               <span>{item}</span>
             </li>
           ))}
         </ul>
       </section>
 
-      <section className="mt-12 p-5 bg-surface border border-border rounded-lg">
-        <h3 className="text-small font-medium text-foreground mb-2">Approval &amp; Stale Data</h3>
-        <p className="text-small text-foreground-muted m-0">{job.approvalAndStaleData}</p>
+      <section className="mt-12 p-5 border border-border rounded-lg">
+        <h3 className="text-[15px] font-medium text-foreground mb-2 mt-0">Approval &amp; Stale Data</h3>
+        <p className="text-[14px] leading-[22px] text-foreground-muted m-0">{job.approvalAndStaleData}</p>
       </section>
 
       <nav className="mt-16 pt-8 border-t border-border flex items-center justify-between gap-4">
         {prevJob ? (
           <Link
             href={`/jobs/${prevJob.slug}`}
-            className="group text-small text-foreground-subtle hover:text-foreground-muted"
+            className="group"
           >
-            <span className="text-caption block mb-1">Previous</span>
-            <span className="group-hover:text-foreground transition-colors">{prevJob.title}</span>
+            <span className="text-[11px] text-foreground-subtle block mb-1">Previous</span>
+            <span className="text-[14px] text-foreground-muted group-hover:text-foreground transition-colors">{prevJob.title}</span>
           </Link>
         ) : (
           <div />
@@ -130,10 +134,10 @@ export default async function JobPage({ params }: PageProps) {
         {nextJob && (
           <Link
             href={`/jobs/${nextJob.slug}`}
-            className="group text-small text-foreground-subtle hover:text-foreground-muted text-right"
+            className="group text-right"
           >
-            <span className="text-caption block mb-1">Next</span>
-            <span className="group-hover:text-foreground transition-colors">{nextJob.title}</span>
+            <span className="text-[11px] text-foreground-subtle block mb-1">Next</span>
+            <span className="text-[14px] text-foreground-muted group-hover:text-foreground transition-colors">{nextJob.title}</span>
           </Link>
         )}
       </nav>

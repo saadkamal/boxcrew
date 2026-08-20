@@ -36,40 +36,40 @@ export default async function IndustryPage({ params }: PageProps) {
 
   return (
     <article className="prose">
-      <span className="text-label">INDUSTRY</span>
-      <h1 className="text-headline mt-3 mb-3">{industry.title}</h1>
-      <p className="text-body text-foreground-muted">{industry.description}</p>
+      <span className="text-[10px] font-medium tracking-[0.12em] text-foreground-subtle uppercase">
+        Industry
+      </span>
+      <h1 className="mt-4 mb-6">{industry.title}</h1>
+      <p className="text-[15px] leading-[24px] text-foreground-muted">{industry.description}</p>
 
       <section>
         <h2>Relevant Jobs</h2>
-        <div className="space-y-3 mt-4">
+        <div className="border-t border-border mt-4">
           {relevantJobs.map((job) => (
             <Link
               key={job.slug}
               href={`/jobs/${job.slug}`}
-              className="group block p-4 border border-border rounded-lg hover:border-foreground-subtle transition-colors"
+              className="flex items-center justify-between py-4 border-b border-border group"
             >
-              <div className="flex items-start justify-between gap-3">
-                <div>
-                  <h3 className="text-small font-medium text-foreground group-hover:text-accent transition-colors m-0">
-                    {job.title}
-                  </h3>
-                  <p className="mt-1 text-caption text-foreground-muted m-0">{job.description}</p>
-                </div>
-                <span className="text-label flex-shrink-0">JOB</span>
+              <div className="min-w-0">
+                <span className="text-[14px] text-foreground-muted group-hover:text-foreground transition-colors">
+                  {job.title}
+                </span>
+                <span className="text-[12px] text-foreground-subtle ml-4">
+                  {job.primarySkill}
+                </span>
               </div>
-              <div className="mt-3 flex items-center gap-2">
-                <span className="text-label">Primary skill:</span>
-                <span className="text-caption text-foreground-subtle">{job.primarySkill}</span>
-              </div>
+              <span className="text-[10px] font-medium tracking-[0.1em] text-foreground-subtle uppercase flex-shrink-0">
+                Job
+              </span>
             </Link>
           ))}
         </div>
       </section>
 
-      <section className="mt-12 p-5 bg-surface border border-border rounded-lg">
-        <h3 className="text-small font-medium text-foreground mb-2">Industry Notes</h3>
-        <p className="text-small text-foreground-muted m-0">
+      <section className="mt-12 p-5 border border-border rounded-lg">
+        <h3 className="text-[15px] font-medium text-foreground mb-2 mt-0">Industry Notes</h3>
+        <p className="text-[14px] leading-[22px] text-foreground-muted m-0">
           These jobs are curated for {industry.title.toLowerCase()} teams. Each
           job includes specific prompts, approval workflows, and never-do lists
           tailored to industry requirements.
@@ -80,10 +80,10 @@ export default async function IndustryPage({ params }: PageProps) {
         {prevIndustry ? (
           <Link
             href={`/industries/${prevIndustry.slug}`}
-            className="group text-small text-foreground-subtle hover:text-foreground-muted"
+            className="group"
           >
-            <span className="text-caption block mb-1">Previous</span>
-            <span className="group-hover:text-foreground transition-colors">{prevIndustry.title}</span>
+            <span className="text-[11px] text-foreground-subtle block mb-1">Previous</span>
+            <span className="text-[14px] text-foreground-muted group-hover:text-foreground transition-colors">{prevIndustry.title}</span>
           </Link>
         ) : (
           <div />
@@ -91,10 +91,10 @@ export default async function IndustryPage({ params }: PageProps) {
         {nextIndustry && (
           <Link
             href={`/industries/${nextIndustry.slug}`}
-            className="group text-small text-foreground-subtle hover:text-foreground-muted text-right"
+            className="group text-right"
           >
-            <span className="text-caption block mb-1">Next</span>
-            <span className="group-hover:text-foreground transition-colors">{nextIndustry.title}</span>
+            <span className="text-[11px] text-foreground-subtle block mb-1">Next</span>
+            <span className="text-[14px] text-foreground-muted group-hover:text-foreground transition-colors">{nextIndustry.title}</span>
           </Link>
         )}
       </nav>

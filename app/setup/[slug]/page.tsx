@@ -32,14 +32,16 @@ export default async function SetupGuidePage({ params }: PageProps) {
 
   return (
     <article className="prose">
-      <span className="text-label">GUIDE</span>
-      <h1 className="text-headline mt-3 mb-3">{guide.title}</h1>
-      <p className="text-body text-foreground-muted">{guide.description}</p>
+      <span className="text-[10px] font-medium tracking-[0.12em] text-foreground-subtle uppercase">
+        Guide
+      </span>
+      <h1 className="mt-4 mb-6">{guide.title}</h1>
+      <p className="text-[15px] leading-[24px] text-foreground-muted">{guide.description}</p>
 
       {guide.prerequisites.length > 0 && (
         <section>
           <h2>Prerequisites</h2>
-          <ul className="text-small text-foreground-muted">
+          <ul className="text-[15px] leading-[24px] text-foreground-muted">
             {guide.prerequisites.map((prereq, i) => (
               <li key={i}>{prereq}</li>
             ))}
@@ -49,7 +51,7 @@ export default async function SetupGuidePage({ params }: PageProps) {
 
       <section>
         <h2>Steps</h2>
-        <ol className="text-small text-foreground-muted list-decimal">
+        <ol className="text-[15px] leading-[24px] text-foreground-muted list-decimal">
           {guide.steps.map((step, i) => (
             <li key={i}>{step}</li>
           ))}
@@ -57,9 +59,9 @@ export default async function SetupGuidePage({ params }: PageProps) {
       </section>
 
       {guide.troubleshooting.length > 0 && (
-        <section className="mt-12 p-5 bg-surface border border-border rounded-lg">
-          <h3 className="text-small font-medium text-foreground mb-3">Troubleshooting</h3>
-          <ul className="space-y-2 text-small text-foreground-muted list-none p-0">
+        <section className="mt-12 p-5 border border-border rounded-lg">
+          <h3 className="text-[15px] font-medium text-foreground mb-3 mt-0">Troubleshooting</h3>
+          <ul className="space-y-2 text-[14px] leading-[22px] text-foreground-muted list-none p-0 m-0">
             {guide.troubleshooting.map((item, i) => (
               <li key={i} className="m-0">{item}</li>
             ))}
@@ -71,10 +73,10 @@ export default async function SetupGuidePage({ params }: PageProps) {
         {prevGuide ? (
           <Link
             href={`/setup/${prevGuide.slug}`}
-            className="group text-small text-foreground-subtle hover:text-foreground-muted"
+            className="group"
           >
-            <span className="text-caption block mb-1">Previous</span>
-            <span className="group-hover:text-foreground transition-colors">{prevGuide.title}</span>
+            <span className="text-[11px] text-foreground-subtle block mb-1">Previous</span>
+            <span className="text-[14px] text-foreground-muted group-hover:text-foreground transition-colors">{prevGuide.title}</span>
           </Link>
         ) : (
           <div />
@@ -82,10 +84,10 @@ export default async function SetupGuidePage({ params }: PageProps) {
         {nextGuide && (
           <Link
             href={`/setup/${nextGuide.slug}`}
-            className="group text-small text-foreground-subtle hover:text-foreground-muted text-right"
+            className="group text-right"
           >
-            <span className="text-caption block mb-1">Next</span>
-            <span className="group-hover:text-foreground transition-colors">{nextGuide.title}</span>
+            <span className="text-[11px] text-foreground-subtle block mb-1">Next</span>
+            <span className="text-[14px] text-foreground-muted group-hover:text-foreground transition-colors">{nextGuide.title}</span>
           </Link>
         )}
       </nav>
