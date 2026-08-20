@@ -12,7 +12,7 @@ interface SearchableItem {
   kind: Content["kind"];
 }
 
-type FilterKind = "all" | "setup" | "skill" | "job" | "industry";
+type FilterKind = "" | "setup" | "skill" | "job" | "industry";
 
 interface SearchProps {
   items: readonly SearchableItem[];
@@ -23,13 +23,12 @@ interface SearchProps {
   onSearchChange?: (q: string, kind: string) => void;
 }
 
-const FILTER_LABELS: Record<FilterKind, string> = {
-  all: "All",
-  setup: "Setup",
-  skill: "Skills",
-  job: "Jobs",
-  industry: "Industries",
-};
+const FILTER_CHIPS: { kind: FilterKind; label: string }[] = [
+  { kind: "setup", label: "Setup" },
+  { kind: "skill", label: "Skill" },
+  { kind: "job", label: "Job" },
+  { kind: "industry", label: "Industry" },
+];
 
 const KIND_LABELS: Record<Content["kind"], string> = {
   setup: "SETUP",
@@ -44,12 +43,12 @@ export function Search({
   placeholder = "Search...",
   heroMode = false,
   initialQuery = "",
-  initialKind = "all",
+  initialKind = "",
   onSearchChange,
 }: SearchProps) {
   const [query, setQuery] = useState(initialQuery);
   const [activeFilter, setActiveFilter] = useState<FilterKind>(
-    (initialKind as FilterKind) || "all"
+    (initialKind as FilterKind) || ""
   );
   const [isOpen, setIsOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -59,7 +58,7 @@ export function Search({
   const filteredItems = useMemo(() => {
     let filtered = [...items];
 
-    if (activeFilter !== "all") {
+    if (activeFilter) {
       filtered = filtered.filter((item) => item.kind === activeFilter);
     }
 
@@ -88,12 +87,13 @@ export function Search({
 
   const handleFilterChange = useCallback(
     (filter: FilterKind) => {
-      setActiveFilter(filter);
+      const newFilter = activeFilter === filter ? "" : filter;
+      setActiveFilter(newFilter);
       setSelectedIndex(0);
       inputRef.current?.focus();
-      onSearchChange?.(query, filter);
+      onSearchChange?.(query, newFilter);
     },
-    [query, onSearchChange]
+    [query, activeFilter, onSearchChange]
   );
 
   const handleKeyDown = useCallback(
@@ -136,8 +136,6 @@ export function Search({
     return () => document.removeEventListener("keydown", handleGlobalKeyDown);
   }, []);
 
-  const availableFilters: FilterKind[] = ["all", "setup", "skill", "job", "industry"];
-
   if (heroMode) {
     return (
       <div className="w-full" ref={containerRef}>
@@ -166,7 +164,7 @@ export function Search({
             </kbd>
           </div>
 
-          {isOpen && (query || activeFilter !== "all") && filteredItems.length > 0 && (
+          {isOpen && (query || activeFilter) && filteredItems.length > 0 && (
             <div
               className="absolute top-full left-0 right-0 mt-2 rounded-lg overflow-hidden z-50"
               style={{ backgroundColor: "#0B0B0C", border: "1px solid #2A2A2E" }}
@@ -210,18 +208,18 @@ export function Search({
         </div>
 
         <div className="flex items-center justify-center gap-2 mt-4">
-          {availableFilters.map((filter) => (
+          {FILTER_CHIPS.map((chip) => (
             <button
-              key={filter}
+              key={chip.kind}
               type="button"
-              onClick={() => handleFilterChange(filter)}
+              onClick={() => handleFilterChange(chip.kind)}
               className="px-3 py-1.5 text-[12px] rounded-full transition-colors"
               style={{
-                border: `1px solid ${activeFilter === filter ? "#E3A53A" : "#2A2A2E"}`,
-                color: activeFilter === filter ? "#E3A53A" : "#6E6A62",
+                border: `1px solid ${activeFilter === chip.kind ? "#E3A53A" : "#2A2A2E"}`,
+                color: activeFilter === chip.kind ? "#E3A53A" : "#6E6A62",
               }}
             >
-              {FILTER_LABELS[filter]}
+              {chip.label}
             </button>
           ))}
         </div>

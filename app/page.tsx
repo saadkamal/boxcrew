@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Search } from "@/components";
 import { setupGuides, skills, jobs, industries } from "@/content";
+import { Suspense } from "react";
 
 const searchItems = [
   ...setupGuides.map((g) => ({
@@ -44,12 +45,12 @@ function HomeContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const initialQuery = searchParams.get("q") ?? "";
-  const initialKind = searchParams.get("kind") ?? "all";
+  const initialKind = searchParams.get("kind") ?? "";
 
   const handleSearchChange = useCallback((q: string, kind: string) => {
     const params = new URLSearchParams();
     if (q) params.set("q", q);
-    if (kind && kind !== "all") params.set("kind", kind);
+    if (kind) params.set("kind", kind);
     const qs = params.toString();
     router.replace(qs ? `/?${qs}` : "/", { scroll: false });
   }, [router]);
@@ -60,7 +61,7 @@ function HomeContent() {
         className="fixed top-0 left-0 right-0 z-50"
         style={{ backgroundColor: "#0B0B0C", borderBottom: "1px solid #2A2A2E" }}
       >
-        <div className="max-w-[720px] mx-auto px-6 h-11 flex items-center justify-between">
+        <div className="max-w-[1080px] mx-auto px-6 h-11 flex items-center justify-between">
           <Link href="/" className="text-[15px] font-medium tracking-[-0.01em]" style={{ color: "#F2F0EA" }}>
             Boxcrew
           </Link>
@@ -69,13 +70,13 @@ function HomeContent() {
               Setup
             </Link>
             <Link href="/skills/account-health-watch" className="text-[13px]" style={{ color: "#6E6A62" }}>
-              Skills
+              Skill
             </Link>
             <Link href="/jobs/sales-outbound" className="text-[13px]" style={{ color: "#6E6A62" }}>
-              Jobs
+              Job
             </Link>
             <Link href="/industries/b2b-saas" className="text-[13px]" style={{ color: "#6E6A62" }}>
-              Industries
+              Industry
             </Link>
             <Link href="/blog" className="text-[13px]" style={{ color: "#6E6A62" }}>
               Blog
@@ -88,9 +89,9 @@ function HomeContent() {
         className="fixed top-11 left-0 right-0 z-40"
         style={{ backgroundColor: "#0B0B0C", borderBottom: "1px solid #2A2A2E" }}
       >
-        <div className="max-w-[720px] mx-auto px-6 py-2 text-center">
+        <div className="max-w-[1080px] mx-auto px-6 py-2 text-center">
           <p className="text-[11px]" style={{ color: "#6E6A62" }}>
-            Not Grok chat. Not Cursor Cloud Agents.
+            Not Grok chat. Not Cursor Cloud Agents. Desktop + iOS teammates that share one box.
           </p>
         </div>
       </div>
@@ -98,10 +99,10 @@ function HomeContent() {
       <main className="flex-1 flex flex-col items-center justify-center px-6 pt-24">
         <div className="w-full max-w-[720px] mx-auto">
           <p
-            className="text-[40px] leading-[48px] font-medium tracking-[-0.02em] text-center mb-12"
-            style={{ color: "#F2F0EA" }}
+            className="text-[15px] leading-[24px] text-center mb-12"
+            style={{ color: "#A8A49A" }}
           >
-            Grok Bot use-case directory
+            Grok Bot is a Cursor desktop and iOS 18 app for named teammates. Each named Bot has a job, skills, and routines. They share one cloud Linux computer called the box: browser, files, terminal. Plugins and MCP are structured tools. A routine fires on a schedule or an event. A skill is the how. You review send, spend, and delete.
           </p>
 
           <Search
@@ -141,7 +142,7 @@ function HomeContent() {
       </main>
 
       <footer style={{ borderTop: "1px solid #2A2A2E" }}>
-        <div className="max-w-[720px] mx-auto px-6 py-6 flex items-center justify-between">
+        <div className="max-w-[1080px] mx-auto px-6 py-6 flex items-center justify-between">
           <p className="text-[11px]" style={{ color: "#6E6A62" }}>
             Boxcrew is not affiliated with Cursor, xAI, or SpaceXAI.
           </p>
@@ -153,8 +154,6 @@ function HomeContent() {
     </div>
   );
 }
-
-import { Suspense } from "react";
 
 export default function HomePage() {
   return (
