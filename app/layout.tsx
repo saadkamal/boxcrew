@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
+import { SITE_NAME } from "@/lib/site";
 import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "Boxcrew",
-    template: "%s | Boxcrew",
+    default: SITE_NAME,
+    template: `%s | ${SITE_NAME}`,
   },
   description: "Grok Bot use-case directory. Skills, jobs, and setup guides.",
 };

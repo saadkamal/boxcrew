@@ -1,105 +1,41 @@
-# ADR-001: Boundaries - Railway Deployment, No Database
+# ADR-001: Boundaries, Railway, no database
 
-## Status
-
-Accepted
+Status: accepted. 21 Aug 2026. Alec.
+Product: Boxcrew. SITE_NAME is Boxcrew. boxcrew.dev is later; do not buy; do not block.
 
 ## Context
 
-Boxcrew is a Grok Bot use-case directory that needs to:
-
-1. Serve a catalog of skills, jobs, setup guides, and industries
-2. Support search and filtering
-3. Deploy easily to Railway
-4. Remain maintainable without a backend team
+v1 is a 39-URL Grok Bot catalog. Overnight. Zero env. No auth. No UGC. Diana locked Railway. pstack is required.
 
 ## Decision
 
-### Boxcrew Owns
+One Next.js App Router app. Typed TypeScript catalog in git. Client search. Railway standalone. No database. No Clerk. No Stripe.
 
-- **Catalog content**: Skills, jobs, setup guides, industries, glossary
-- **SEO**: Static pages with proper meta tags
-- **UI**: Search, navigation, copy-paste functionality
-- **Content management**: Typed TypeScript files in git
+## Boundaries
 
-### Boxcrew Does Not Own
+- Boxcrew owns catalog, SEO, and UI.
+- Cursor / xAI own Grok Bot. We link official docs. We do not proxy sign-in, plugins, or the box.
+- Readers copy artifacts into their own desktop. We do not host user skills or a marketplace.
+- Four code layers: content (data), lib (query + SEO), app (HTTP), components (UI). No fifth layer.
+- Nia owns tokens. Cora assigns. Quinn gates. This note does not invent product claims.
 
-- **Grok Bot proxy**: We do not proxy requests to Grok Bot
-- **Authentication**: No auth, no Clerk, no user accounts
-- **Database**: No DB, content lives in git
-- **CMS**: No external CMS, content is code
-- **Custom domain**: No custom domain setup
+## Why Railway
 
-### Railway Because
+Railway runs next start + standalone with no wrangler, no adapter, no extra account. PR previews if GitHub is connected. Diana locked it.
 
-**Why Railway:**
-- `next start` with standalone build works out of the box
-- Zero config deployment from git
-- No Vercel lock-in
+Cloudflare would be the edge pick for a static export. We are not doing a static export in v1: OG image generation and a SITE_URL constant patched after first deploy want a Node server. 39 pages do not need the edge. Trade-off: colder TTFB. Accept it.
 
-**Trade-off: Edge TTFB:**
-- Railway serves from a single region (not edge)
-- TTFB is higher for distant users
-- Acceptable because content is static and cacheable
-- SEO is not time-sensitive for this use case
+## Why no database
 
-### No Database Because
+The catalog is 39 rows and is the product. Git is the CMS. Search is an in-memory filter. A database adds env vars (forbidden), migrations, and a path to UGC we forbade. Vera slug patches are pull requests. Trade-off: content ships with a deploy. That is the review path we want.
 
-**Why no DB:**
-- 39 routes total (not 39,000)
-- Content changes infrequently
-- Git provides version history
-- TypeScript provides type safety
-- No runtime queries means no runtime failures
+## Rejected
 
-**What this enables:**
-- Zero-env builds (no DB connection string)
-- No cold start latency for DB connections
-- Content reviewed in PRs like code
-- No backup/restore complexity
+MDX + a generated index (two sources of truth). Clerk / Stripe. Custom domain in v1. Repository interfaces, CMS adapters, Contentlayer, search services, i18n, env schemas, feature flags.
 
 ## Consequences
 
-### Positive
-
-- Simpler deployment and operations
-- Content changes are code changes (reviewed, versioned)
-- No database maintenance or costs
-- Build-time type checking catches content errors
-
-### Negative
-
-- Adding content requires a deploy
-- No user-generated content
-- No personalization
-- No analytics (would need separate service)
-
-### Neutral
-
-- Search is client-side (acceptable for 39 items)
-- No real-time updates (acceptable for this use case)
-
-## Alternatives Considered
-
-### Vercel + Edge Functions
-
-- Pros: Better TTFB, more features
-- Cons: Vercel pricing, lock-in
-- Decision: Railway is simpler and sufficient
-
-### Database (Postgres/SQLite)
-
-- Pros: Dynamic content, querying
-- Cons: Complexity, maintenance, env vars
-- Decision: 39 rows don't need a database
-
-### Headless CMS (Sanity, Contentful)
-
-- Pros: Non-developer editing
-- Cons: Another service, sync complexity, cost
-- Decision: Content authors can edit TypeScript
-
-## References
-
-- [Next.js Standalone Output](https://nextjs.org/docs/app/api-reference/next-config-js/output)
-- [Railway Next.js Deployment](https://docs.railway.app/guides/nextjs)
+- Kai sets SITE_URL in site.ts after Railway exists. Never an env var.
+- Ben implements catalog-contract.ts. No 17th skill. No old IA routes.
+- Nora implements tokens.md. No extra hues.
+- Quinn rejects any of the rejected items and any missing anti-doorway field.

@@ -4,44 +4,35 @@ Grok Bot use-case directory. Skills, jobs, and setup guides.
 
 ## What It Is
 
-Boxcrew is a static catalog of Grok Bot configurations and workflows. Browse skills (specific capabilities), jobs (role archetypes), setup guides, and industry-specific recommendations.
+Boxcrew is a 39-page catalog of Grok Bot configurations and workflows. Browse skills (specific capabilities), jobs (role archetypes), setup guides, and industry-specific recommendations. Readers copy artifacts into their own Cursor desktop. We do not host user skills or a marketplace.
 
 Key principles:
 - Never auto-send, auto-spend, or auto-publish
 - Every outbound action requires human approval
 - Grok Bot is a research assistant, not an autonomous actor
 
+Not affiliated with Cursor, xAI, or SpaceXAI.
+
 ## Stack
 
-- **Framework**: Next.js 15 (App Router)
-- **Language**: TypeScript (strict mode)
-- **Styling**: Tailwind CSS v4
-- **Content**: Typed TypeScript catalog (no MDX, no CMS, no database)
-- **Deployment**: Railway via `next start` (standalone build)
+- Next.js 15 (App Router, standalone output)
+- TypeScript (strict mode)
+- Tailwind CSS v4
+- Typed content catalog in git (no MDX, no CMS, no database)
+- Railway deployment via `next start`
 
 ## Project Structure
 
 ```
 boxcrew/
-├── app/              # Next.js App Router pages
-│   ├── setup/        # Setup guide routes
-│   ├── skills/       # Skill routes
-│   ├── jobs/         # Job routes
-│   ├── industries/   # Industry routes
-│   └── ...           # Other pages (home, glossary, etc.)
-├── components/       # React components
-├── content/          # Typed content catalog
-│   ├── types.ts      # Content type definitions
-│   ├── setup.ts      # Setup guides data
-│   ├── skills.ts     # Skills data
-│   ├── jobs.ts       # Jobs data
-│   ├── industries.ts # Industries data
-│   └── pages.ts      # Standalone pages data
-├── lib/              # Utility functions
-└── docs/             # Documentation (not a public route)
+├── app/           # Next.js App Router pages
+├── components/    # React components
+├── content/       # Typed content catalog
+├── lib/           # Utilities and site constants
+└── docs/          # Documentation (not a public route)
 ```
 
-Four layers only: `content`, `lib`, `app`, `components`. No fifth layer.
+Four layers: `content`, `lib`, `app`, `components`. No fifth layer.
 
 ## Local Development
 
@@ -49,7 +40,7 @@ Four layers only: `content`, `lib`, `app`, `components`. No fifth layer.
 # Install dependencies
 npm install
 
-# Start dev server
+# Start dev server (http://localhost:3000)
 npm run dev
 
 # Build for production
@@ -59,41 +50,50 @@ npm run build
 npm start
 ```
 
+No environment variables required. Zero-env build.
+
 ## Railway Deployment
 
-This project uses `output: "standalone"` in `next.config.ts` for Railway deployment.
+Railway runs `next start` with standalone output. No wrangler, no adapter, no extra account.
 
-```bash
-# Railway build command
-npm run build
+### Setup
 
-# Railway start command
-npm start
-```
+1. Connect GitHub repo to Railway
+2. Railway auto-detects Nixpacks/Node
+3. Build command: `npm run build` (auto-detected)
+4. Start command: `npm start` (auto-detected)
 
-No environment variables required. Zero-env standalone build.
+### Configuration
+
+- **Variables**: None. Do not add any.
+- **Volumes**: None. Do not add any.
+- **Add-ons**: None. No database, no Redis, no nothing.
+- **Custom domain**: Not in v1. boxcrew.dev is later; do not buy; do not block.
+
+### Rollback
+
+Redeploy previous Railway deployment. That's it.
+
+### After First Deploy
+
+Kai sets `SITE_URL` in `lib/site.ts` to the Railway URL. Never an env var. Commit and push.
 
 ## Content Model
 
-All content is typed TypeScript. See `content/types.ts` for definitions.
+All content is typed TypeScript in `content/`. Git is the CMS.
 
-### Content Types
+- **SetupGuide**: Configuration tutorials
+- **Skill**: Specific capabilities with anti-doorway fields
+- **Job**: Role archetypes combining skills
+- **Industry**: Vertical groupings with job links
 
-- **SetupGuide**: Configuration tutorials with steps, prerequisites, and troubleshooting
-- **Skill**: Specific capabilities with outcome, sources, copy-paste prompt, reviewable artifact, and approval requirements
-- **Job**: Role archetypes that combine skills with persona, routine, and never-do lists
-- **Industry**: Vertical groupings with curated job recommendations
-- **Page**: Standalone content pages (home, glossary, etc.)
-
-### Adding Content
-
-See [docs/adding-content.md](docs/adding-content.md) for instructions.
+See [docs/adding-content.md](docs/adding-content.md) for how to add content.
 
 ## Routes
 
-39 total routes:
+39 routes total:
 
-- `/` - Home
+- `/` - Home with search
 - `/grok-vs-grok-bot` - Model vs agent comparison
 - `/glossary` - Terms and concepts
 - `/setup/[slug]` - 8 setup guides
@@ -101,19 +101,6 @@ See [docs/adding-content.md](docs/adding-content.md) for instructions.
 - `/jobs/[slug]` - 8 jobs
 - `/industries/[slug]` - 4 industries
 
-## Design
+## Architecture Decision
 
-- Background: `#0B0B0C`
-- Text: `#F2F0EA`
-- Accent: `#E3A53A`
-- Font: Geist
-- No gradients
-
-## Facts
-
-- Requires Cursor account for Grok Bot access
-- Shared box does not provide isolation between users
-- Plugins available: Gmail, Notion, Slack (Zoom is broken)
-- Remote MCP requires public HTTPS endpoints
-- Never auto-send, auto-spend, or auto-publish
-- Not affiliated with Cursor, xAI, or SpaceXAI
+See [docs/adr-001-boundaries-railway-no-db.md](docs/adr-001-boundaries-railway-no-db.md) for why Railway, why no database, and what we rejected.
