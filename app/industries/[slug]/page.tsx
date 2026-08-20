@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { industries, getIndustryBySlug, getJobBySlug } from "@/content";
+import { Layout } from "@/components";
+import { industryItemListJsonLd } from "@/lib/seo";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -17,7 +19,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!industry) return { title: "Not Found" };
   return {
     title: industry.title,
-    description: industry.description,
+    description: `Grok Bot use cases for ${industry.title}: ${industry.description}`,
   };
 }
 
@@ -30,42 +32,58 @@ export default async function IndustryPage({ params }: PageProps) {
     .map((jobSlug) => getJobBySlug(jobSlug))
     .filter((job): job is NonNullable<typeof job> => job !== undefined);
 
+  const jsonLd = industryItemListJsonLd(
+    industry,
+    relevantJobs.map((j) => j.title)
+  );
+
   return (
-    <article>
-      <h1 className="text-3xl font-bold mb-2">{industry.title}</h1>
-      <p className="text-lg text-muted mb-8">{industry.description}</p>
+    <Layout>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
 
-      <section>
-        <h2 className="text-xl font-semibold mb-4">Relevant Jobs</h2>
-        <div className="space-y-4">
-          {relevantJobs.map((job) => (
-            <Link
-              key={job.slug}
-              href={`/jobs/${job.slug}`}
-              className="block p-4 bg-card border border-border rounded-lg hover:border-accent transition-colors hover:no-underline group"
-            >
-              <h3 className="font-medium text-foreground group-hover:text-accent transition-colors">
-                {job.title}
-              </h3>
-              <p className="mt-1 text-sm text-muted">{job.description}</p>
-              <div className="mt-3 flex items-center gap-2 text-xs text-muted">
-                <span className="px-2 py-0.5 bg-border rounded">
-                  Primary: {job.primarySkill}
-                </span>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </section>
+      <article style={{ maxWidth: "var(--blog-measure)" }}>
+        <h1 className="mb-4">{industry.title}</h1>
+        <p className="mb-8 text-text-2">{industry.description}</p>
 
-      <section className="mt-8 p-4 bg-card border border-border rounded-lg">
-        <h2 className="font-semibold mb-2">Industry Notes</h2>
-        <p className="text-sm text-muted">
-          These jobs are curated for {industry.title.toLowerCase()} teams. Each
-          job includes specific prompts, approval workflows, and never-do lists
-          tailored to industry requirements.
-        </p>
-      </section>
-    </article>
+        <section className="mb-8">
+          <h2 className="mb-4 text-xl font-medium">Jobs</h2>
+          <div className="space-y-2">
+            {relevantJobs.map((job) => (
+              <Link
+                key={job.slug}
+                href={`/jobs/${job.slug}`}
+                className="flex items-center rounded border border-border px-4 py-3 transition-colors hover:border-accent hover:no-underline"
+                style={{ minHeight: "var(--rail-row-min)" }}
+              >
+                <div>
+                  <span className="text-text hover:text-accent">{job.title}</span>
+                  <p className="mt-1 text-sm text-text-3">{job.description}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        <section
+          className="rounded border border-border p-4"
+          style={{ backgroundColor: "var(--bg-raised)" }}
+        >
+          <h2 className="mb-3 font-medium">Start Guide</h2>
+          <p className="mb-3 text-sm text-text-2">
+            New to Grok Bot for {industry.title.toLowerCase()}? Start with the
+            install plan, then explore the jobs above.
+          </p>
+          <Link
+            href="/setup/install-plan"
+            className="inline-block text-sm text-text-2 underline decoration-border hover:text-accent"
+          >
+            Go to Install Plan →
+          </Link>
+        </section>
+      </article>
+    </Layout>
   );
 }

@@ -1,74 +1,50 @@
 "use client";
 
-import { useState, useMemo, useCallback } from "react";
-import Link from "next/link";
-import { normalizeForSearch } from "@/lib/utils";
-import type { Content } from "@/content/types";
-
-interface SearchableItem {
-  title: string;
-  description: string;
-  href: string;
-  kind: Content["kind"];
-}
+import { useCallback } from "react";
 
 interface SearchProps {
-  items: readonly SearchableItem[];
+  value: string;
+  onChange: (value: string) => void;
   placeholder?: string;
 }
 
-export function Search({ items, placeholder = "Search..." }: SearchProps) {
-  const [query, setQuery] = useState("");
-
-  const filteredItems = useMemo(() => {
-    if (!query.trim()) return items;
-    const normalized = normalizeForSearch(query);
-    return items.filter(
-      (item) =>
-        normalizeForSearch(item.title).includes(normalized) ||
-        normalizeForSearch(item.description).includes(normalized)
-    );
-  }, [items, query]);
-
-  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(e.target.value);
-  }, []);
+export function Search({
+  value,
+  onChange,
+  placeholder = "chief of staff, account health, install",
+}: SearchProps) {
+  const handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      onChange(e.target.value);
+    },
+    [onChange]
+  );
 
   return (
-    <div className="space-y-4">
+    <div className="relative">
+      <svg
+        className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-text-3"
+        width="18"
+        height="18"
+        viewBox="0 0 16 16"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+      >
+        <circle cx="7" cy="7" r="4.5" />
+        <path d="M10.5 10.5L14 14" strokeLinecap="round" />
+      </svg>
       <input
         type="text"
-        value={query}
+        value={value}
         onChange={handleChange}
         placeholder={placeholder}
-        className="w-full px-4 py-2 bg-card border border-border rounded-lg text-foreground placeholder:text-muted focus:outline-none focus:border-accent"
+        className="w-full rounded border border-border pl-10 pr-4 text-text outline-none transition-colors placeholder:text-text-3 focus:border-border-focus"
+        style={{
+          height: "var(--search-height)",
+          backgroundColor: "var(--bg-input)",
+        }}
       />
-      {query && (
-        <p className="text-sm text-muted">
-          {filteredItems.length} result{filteredItems.length !== 1 ? "s" : ""}
-        </p>
-      )}
-      <div className="space-y-2">
-        {filteredItems.map((item) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            className="block p-3 bg-card border border-border rounded hover:border-accent transition-colors hover:no-underline group"
-          >
-            <div className="flex items-center gap-2">
-              <span className="text-xs px-1.5 py-0.5 bg-border rounded text-muted">
-                {item.kind}
-              </span>
-              <span className="font-medium text-foreground group-hover:text-accent">
-                {item.title}
-              </span>
-            </div>
-            <p className="mt-1 text-sm text-muted line-clamp-1">
-              {item.description}
-            </p>
-          </Link>
-        ))}
-      </div>
     </div>
   );
 }

@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { Layout } from "@/components";
-import { getPageBySlug } from "@/content";
 import { notFound } from "next/navigation";
+import { getPageBySlug } from "@/content";
+import { Layout } from "@/components";
+import { glossaryItemListJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Glossary",
@@ -12,17 +13,30 @@ export default function GlossaryPage() {
   const page = getPageBySlug("glossary");
   if (!page) notFound();
 
+  const jsonLd = glossaryItemListJsonLd(page.sections);
+
   return (
     <Layout>
-      <article className="max-w-3xl">
-        <h1 className="text-3xl font-bold mb-4">{page.title}</h1>
-        <p className="text-lg text-muted mb-8">{page.description}</p>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
 
-        <dl className="space-y-6">
+      <article style={{ maxWidth: "var(--blog-measure)" }}>
+        <h1 className="mb-4">{page.title}</h1>
+        <p className="mb-8 text-text-2">{page.description}</p>
+
+        <dl className="space-y-4">
           {page.sections.map((section, index) => (
-            <div key={index} className="p-4 bg-card border border-border rounded-lg">
-              <dt className="font-semibold text-accent mb-2">{section.heading}</dt>
-              <dd className="text-muted">{section.content}</dd>
+            <div
+              key={index}
+              className="rounded border border-border p-4"
+              style={{ backgroundColor: "var(--bg-raised)" }}
+            >
+              <dt className="mb-2 font-medium" style={{ color: "var(--accent)" }}>
+                {section.heading}
+              </dt>
+              <dd className="text-text-2">{section.content}</dd>
             </div>
           ))}
         </dl>

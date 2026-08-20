@@ -1,27 +1,44 @@
-import Link from "next/link";
+import { OFFICIAL_DOCS } from "@/lib/site";
 
 export function Footer() {
   return (
-    <footer className="border-t border-border mt-auto">
-      <div className="max-w-5xl mx-auto px-4 py-6">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-muted">
-            Boxcrew is not affiliated with Cursor, xAI, or SpaceXAI.
-          </p>
-          <div className="flex items-center gap-4">
-            <Link
-              href="/grok-vs-grok-bot"
-              className="text-sm text-muted hover:text-foreground"
-            >
-              Grok vs Grok Bot
-            </Link>
-            <Link
-              href="/glossary"
-              className="text-sm text-muted hover:text-foreground"
-            >
-              Glossary
-            </Link>
-          </div>
+    <footer className="mt-auto border-t border-border">
+      <div
+        className="mx-auto py-6"
+        style={{
+          maxWidth: "var(--page-max)",
+          paddingLeft: "var(--gutter)",
+          paddingRight: "var(--gutter)",
+        }}
+      >
+        <p className="mb-3 text-sm text-text-3">
+          Not affiliated with Cursor, xAI, or SpaceXAI.
+        </p>
+        <div className="flex flex-wrap gap-4 text-sm text-text-3">
+          <a
+            href={OFFICIAL_DOCS.grokBot}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-accent"
+          >
+            Grok Bot Docs
+          </a>
+          <a
+            href={OFFICIAL_DOCS.plans}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-accent"
+          >
+            Plans
+          </a>
+          <a
+            href={OFFICIAL_DOCS.onboarding}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-accent"
+          >
+            Onboarding
+          </a>
         </div>
       </div>
     </footer>

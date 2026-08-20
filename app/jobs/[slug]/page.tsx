@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { CopyButton } from "@/components";
 import { jobs, getJobBySlug } from "@/content";
+import { Layout, CopyBlock, IncompleteWell } from "@/components";
+import { jobArticleJsonLd } from "@/lib/seo";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -18,8 +19,24 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!job) return { title: "Not Found" };
   return {
     title: job.title,
-    description: job.description,
+    description: `Grok Bot job: ${job.description}`,
   };
+}
+
+function getMissingFields(job: {
+  outcome?: string;
+  sources?: readonly string[];
+  copyPaste?: string;
+  reviewableArtifact?: string;
+  approvalAndStaleData?: string;
+}): string[] {
+  const missing: string[] = [];
+  if (!job.outcome) missing.push("outcome");
+  if (!job.sources || job.sources.length === 0) missing.push("sources");
+  if (!job.copyPaste) missing.push("copyPaste");
+  if (!job.reviewableArtifact) missing.push("reviewableArtifact");
+  if (!job.approvalAndStaleData) missing.push("approvalAndStaleData");
+  return missing;
 }
 
 export default async function JobPage({ params }: PageProps) {
@@ -27,81 +44,100 @@ export default async function JobPage({ params }: PageProps) {
   const job = getJobBySlug(slug);
   if (!job) notFound();
 
+  const jsonLd = jobArticleJsonLd(job);
+  const missingFields = getMissingFields(job);
+
   return (
-    <article>
-      <h1 className="text-3xl font-bold mb-2">{job.title}</h1>
-      <p className="text-lg text-muted mb-8">{job.description}</p>
+    <Layout>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
 
-      <section className="mb-8 p-4 bg-card border border-border rounded-lg">
-        <h2 className="font-semibold mb-3">Bot Persona</h2>
-        <p className="text-muted">{job.botDescription}</p>
-      </section>
+      <article style={{ maxWidth: "var(--blog-measure)" }}>
+        <h1 className="mb-4">{job.title}</h1>
+        <p className="mb-8 text-text-2">{job.description}</p>
 
-      <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-3">Outcome</h2>
-        <p className="text-muted">{job.outcome}</p>
-      </section>
+        {missingFields.length > 0 && (
+          <div className="mb-8">
+            <IncompleteWell missingFields={missingFields} />
+          </div>
+        )}
 
-      <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-3">First Task</h2>
-        <p className="text-muted">{job.firstTask}</p>
-      </section>
-
-      <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-3">Primary Skill</h2>
-        <Link
-          href={`/skills/${job.primarySkill}`}
-          className="inline-block px-3 py-1.5 bg-card border border-border rounded hover:border-accent transition-colors"
+        <section
+          className="mb-8 rounded border border-border p-4"
+          style={{ backgroundColor: "var(--bg-raised)" }}
         >
-          {job.primarySkill}
-        </Link>
-      </section>
+          <h2 className="mb-2 font-medium">Bot Persona</h2>
+          <p className="text-text-2">{job.botDescription}</p>
+        </section>
 
-      <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-3">Sources</h2>
-        <ul className="list-disc list-inside space-y-1 text-muted">
-          {job.sources.map((source, i) => (
-            <li key={i}>{source}</li>
-          ))}
-        </ul>
-      </section>
+        <section className="mb-8">
+          <h2 className="mb-3 text-xl font-medium">Outcome</h2>
+          <p className="text-text-2">{job.outcome}</p>
+        </section>
 
-      <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-3">Routine</h2>
-        <p className="text-muted">{job.routine}</p>
-      </section>
+        <section className="mb-8">
+          <h2 className="mb-3 text-xl font-medium">First Task</h2>
+          <p className="text-text-2">{job.firstTask}</p>
+        </section>
 
-      <section className="mb-8">
-        <div className="flex items-center justify-between mb-3">
-          <h2 className="text-xl font-semibold">Copy-Paste Prompt</h2>
-          <CopyButton text={job.copyPaste} />
-        </div>
-        <pre className="p-4 bg-card border border-border rounded-lg overflow-x-auto text-sm text-muted whitespace-pre-wrap font-mono">
-          {job.copyPaste}
-        </pre>
-      </section>
+        <section className="mb-8">
+          <h2 className="mb-3 text-xl font-medium">Primary Skill</h2>
+          <Link
+            href={`/skills/${job.primarySkill}`}
+            className="inline-block rounded border border-border px-3 py-2 text-text-2 transition-colors hover:border-accent hover:text-accent"
+          >
+            {job.primarySkill}
+          </Link>
+        </section>
 
-      <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-3">Reviewable Artifact</h2>
-        <p className="text-muted">{job.reviewableArtifact}</p>
-      </section>
+        <section className="mb-8">
+          <h2 className="mb-3 text-xl font-medium">Sources</h2>
+          <ul className="list-inside list-disc space-y-1 text-text-2">
+            {job.sources.map((source, i) => (
+              <li key={i}>{source}</li>
+            ))}
+          </ul>
+        </section>
 
-      <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-3">Never List</h2>
-        <ul className="space-y-2">
-          {job.neverList.map((item, i) => (
-            <li key={i} className="flex items-start gap-2 text-muted">
-              <span className="text-red-500 flex-shrink-0">✕</span>
-              <span>{item}</span>
-            </li>
-          ))}
-        </ul>
-      </section>
+        <section className="mb-8">
+          <h2 className="mb-3 text-xl font-medium">Routine</h2>
+          <p className="text-text-2">{job.routine}</p>
+        </section>
 
-      <section className="p-4 bg-card border border-border rounded-lg">
-        <h2 className="font-semibold mb-3">Approval & Stale Data</h2>
-        <p className="text-sm text-muted">{job.approvalAndStaleData}</p>
-      </section>
-    </article>
+        <section className="mb-8">
+          <h2 className="mb-4 text-xl font-medium">Copy-Paste Prompt</h2>
+          <CopyBlock text={job.copyPaste} />
+        </section>
+
+        <section className="mb-8">
+          <h2 className="mb-3 text-xl font-medium">Reviewable Artifact</h2>
+          <p className="text-text-2">{job.reviewableArtifact}</p>
+        </section>
+
+        <section className="mb-8">
+          <h2 className="mb-3 text-xl font-medium">Never List</h2>
+          <ul className="space-y-2">
+            {job.neverList.map((item, i) => (
+              <li key={i} className="flex items-start gap-2 text-text-2">
+                <span className="flex-shrink-0" style={{ color: "var(--danger)" }}>
+                  ✕
+                </span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section
+          className="rounded border border-border p-4"
+          style={{ backgroundColor: "var(--bg-raised)" }}
+        >
+          <h2 className="mb-3 font-medium">Approval & Stale Data</h2>
+          <p className="text-sm text-text-2">{job.approvalAndStaleData}</p>
+        </section>
+      </article>
+    </Layout>
   );
 }

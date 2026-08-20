@@ -9,3 +9,10 @@ export { skills, getSkillBySlug } from "./skills";
 export { jobs, getJobBySlug } from "./jobs";
 export { industries, getIndustryBySlug } from "./industries";
 export { pages, getPageBySlug } from "./pages";
+export {
+  blogPosts,
+  getBlogPostBySlug,
+  getBlogPostsByCategory,
+  BLOG_CATEGORIES,
+  type BlogPost,
+} from "./blog";

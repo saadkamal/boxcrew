@@ -1,13 +1,19 @@
 import type { Metadata } from "next";
-import { SITE_NAME } from "@/lib/site";
+import { SITE_NAME, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
     default: SITE_NAME,
-    template: `%s | ${SITE_NAME}`,
+    template: `%s · ${SITE_NAME}`,
   },
-  description: "Grok Bot use-case directory. Skills, jobs, and setup guides.",
+  description: "Grok Bot setups you paste. Skills, jobs, and setup guides for Grok Bot.",
+  metadataBase: new URL(SITE_URL),
+  openGraph: {
+    type: "website",
+    siteName: SITE_NAME,
+    locale: "en_US",
+  },
 };
 
 export default function RootLayout({
@@ -18,11 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link
-          rel="preconnect"
-          href="https://fonts.googleapis.com"
-          crossOrigin="anonymous"
-        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
           href="https://fonts.gstatic.com"
@@ -33,9 +35,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="min-h-screen flex flex-col">
-        {children}
-      </body>
+      <body className="flex min-h-screen flex-col">{children}</body>
     </html>
   );
 }
