@@ -19,7 +19,7 @@ export function Footer() {
             href={OFFICIAL_DOCS.grokBot}
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-accent"
+            className="quiet-link"
           >
             Grok Bot Docs
           </a>
@@ -27,7 +27,7 @@ export function Footer() {
             href={OFFICIAL_DOCS.plans}
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-accent"
+            className="quiet-link"
           >
             Plans
           </a>
@@ -35,7 +35,7 @@ export function Footer() {
             href={OFFICIAL_DOCS.onboarding}
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-accent"
+            className="quiet-link"
           >
             Onboarding
           </a>

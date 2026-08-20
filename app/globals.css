@@ -17,33 +17,44 @@
   --danger: #E26A6A;
   --success: #3FAE7A;
 
-  --font-sans: "Geist", system-ui, -apple-system, sans-serif;
-  --font-mono: "Geist Mono", ui-monospace, monospace;
+  --font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
   --shadow-palette: 0 16px 48px rgba(0, 0, 0, 0.5);
 
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-6: 24px;
-  --space-8: 32px;
-  --space-12: 48px;
-  --space-16: 64px;
-  --space-24: 96px;
+  --space-4: 4px;
+  --space-8: 8px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-24: 24px;
+  --space-32: 32px;
+  --space-48: 48px;
+  --space-64: 64px;
+  --space-96: 96px;
+  --space-128: 128px;
 
   --header-height: 56px;
-  --search-height: 48px;
-  --search-height-mobile: 44px;
+  --search-height: 56px;
+  --search-height-mobile: 48px;
   --chip-height: 32px;
   --copy-btn-size: 32px;
   --palette-width: 640px;
   --palette-radius: 12px;
   --rail-row-min: 64px;
   --page-max: 1080px;
+  --home-max: 720px;
+  --prose-max: 640px;
   --gutter: 24px;
   --gutter-lg: 32px;
-  --blog-measure: 680px;
+  --home-inset: 128px;
+  --section-gap: 64px;
+}
+
+@media (max-width: 639px) {
+  :root {
+    --home-inset: 64px;
+    --search-height: 48px;
+  }
 }
 
 @media (min-width: 640px) {
@@ -88,15 +99,42 @@ body {
 }
 
 ::selection {
-  background-color: var(--accent);
-  color: var(--accent-ink);
+  background-color: var(--bg-raised);
+  color: var(--text);
 }
 
 h1 {
-  font-size: 32px;
-  line-height: 40px;
+  font-size: 56px;
+  line-height: 64px;
   font-weight: 500;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.04em;
+}
+
+h2 {
+  font-size: 22px;
+  line-height: 30px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+h3 {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+}
+
+.home-definition {
+  font-size: 40px;
+  line-height: 48px;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  color: var(--text);
+}
+
+.plan-gate {
+  font-size: 13px;
+  line-height: 20px;
+  color: var(--text-3);
 }
 
 a {
@@ -106,7 +144,12 @@ a {
 }
 
 a:hover {
-  color: var(--accent);
+  color: var(--text);
+  text-decoration-color: var(--text-3);
+}
+
+.prose {
+  max-width: var(--prose-max);
 }
 
 .prose a {
@@ -116,7 +159,75 @@ a:hover {
 }
 
 .prose a:hover {
-  color: var(--accent);
+  color: var(--text);
+  text-decoration-color: var(--text-3);
+}
+
+.prose h1 {
+  margin-bottom: var(--space-24);
+}
+
+.prose h2 {
+  margin-top: var(--section-gap);
+  margin-bottom: var(--space-16);
+}
+
+.prose h3 {
+  margin-top: var(--space-32);
+  margin-bottom: var(--space-12);
+}
+
+.prose p {
+  margin-bottom: var(--space-16);
+}
+
+.prose ul,
+.prose ol {
+  margin-bottom: var(--space-16);
+  padding-left: var(--space-24);
+}
+
+.prose li {
+  margin-bottom: var(--space-8);
+}
+
+.prose hr {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: var(--section-gap) 0;
+}
+
+.prose .table-wrap {
+  overflow-x: auto;
+  margin: var(--space-24) 0;
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.prose th,
+.prose td {
+  border-bottom: 1px solid var(--border);
+  padding: var(--space-12) var(--space-16) var(--space-12) 0;
+  text-align: left;
+  vertical-align: top;
+  font-size: 15px;
+  line-height: 24px;
+}
+
+.prose th {
+  color: var(--text-3);
+  font-weight: 500;
+}
+
+.prose td {
+  color: var(--text-2);
+}
+
+.interior-stack > * + * {
+  margin-top: var(--section-gap);
 }
 
 code {
@@ -130,9 +241,9 @@ code {
 .skip-link {
   position: absolute;
   left: -9999px;
-  top: var(--space-4);
+  top: var(--space-16);
   z-index: 100;
-  padding: var(--space-2) var(--space-4);
+  padding: var(--space-8) var(--space-16);
   background: var(--accent);
   color: var(--accent-ink);
   font-weight: 500;
@@ -140,7 +251,7 @@ code {
 }
 
 .skip-link:focus {
-  left: var(--space-4);
+  left: var(--space-16);
   outline: 2px solid var(--border-focus);
   outline-offset: 2px;
 }
@@ -158,5 +269,15 @@ code {
 
 .wordmark:hover {
   color: var(--text);
+  text-decoration: none;
+}
+
+.quiet-link {
+  color: var(--text-3);
+  text-decoration: none;
+}
+
+.quiet-link:hover {
+  color: var(--text-2);
   text-decoration: none;
 }

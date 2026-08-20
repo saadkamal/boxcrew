@@ -1,19 +1,20 @@
 import type { Metadata } from "next";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
+import { buildMetadata } from "@/lib/seo";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  ...buildMetadata({
+    title: "Grok Bot",
+    description:
+      "Grok Bot setups you paste. Named desktop and iOS teammates that share one box.",
+    path: "/",
+  }),
   title: {
-    default: SITE_NAME,
+    default: "Grok Bot",
     template: `%s · ${SITE_NAME}`,
   },
-  description: "Grok Bot setups you paste. Skills, jobs, and setup guides for Grok Bot.",
   metadataBase: new URL(SITE_URL),
-  openGraph: {
-    type: "website",
-    siteName: SITE_NAME,
-    locale: "en_US",
-  },
 };
 
 export default function RootLayout({

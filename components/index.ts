@@ -7,3 +7,4 @@ export { CommandPalette } from "./command-palette";
 export { Search } from "./search";
 export { FilterChips } from "./filter-chips";
 export { IncompleteWell } from "./incomplete-well";
+export { HomeContent } from "./home-content";

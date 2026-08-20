@@ -29,19 +29,19 @@ export const pages: readonly Page[] = [
     kind: "page",
     slug: "grok-vs-grok-bot",
     title: "Grok vs Grok Bot",
-    description: "Understand the difference between Grok (the model) and Grok Bot (the Cursor agent).",
+    description: "Grok chat, Grok Bot, and Cursor Cloud Agents are three different products.",
     sections: [
       {
-        heading: "Grok (the model)",
-        content: "Grok is an AI language model created by xAI. It powers various applications and can be accessed through different interfaces. The model itself is the underlying intelligence.",
+        heading: "Grok chat",
+        content: "xAI chat assistant on grok.com and X. A conversation. No named roster, skills, routines, or box.",
       },
       {
-        heading: "Grok Bot (the agent)",
-        content: "Grok Bot is Cursor's implementation of an AI agent that uses models like Grok. It's the interface you interact with in Cursor, complete with plugins, skills, routines, and approval workflows.",
+        heading: "Grok Bot",
+        content: "Named teammates on Cursor desktop and iOS 18. They share one cloud Linux computer: browser, files, terminal.",
       },
       {
-        heading: "Why it matters",
-        content: "When configuring Grok Bot, you're setting up the agent's behavior—what it can access, how it responds, and what approvals it requires. The model provides the intelligence; the bot provides the structure and guardrails.",
+        heading: "Cursor Cloud Agents",
+        content: "Isolated coding VMs. Each run clones a repo, works a branch, and opens a pull request. Not a shared box.",
       },
       {
         heading: "Affiliation notice",

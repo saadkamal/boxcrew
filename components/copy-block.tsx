@@ -32,14 +32,14 @@ export function CopyBlock({ text }: CopyBlockProps) {
     state === "idle"
       ? "var(--text-2)"
       : state === "copied"
-        ? "var(--success)"
+        ? "var(--accent)"
         : "var(--danger)";
 
   return (
     <div className="relative">
       <pre
-        className="overflow-x-auto whitespace-pre-wrap rounded border border-border p-4 font-mono text-sm"
-        style={{ backgroundColor: "var(--bg-raised)" }}
+        className="overflow-x-auto whitespace-pre-wrap border border-border p-4 font-mono text-sm"
+        style={{ backgroundColor: "var(--bg-raised)", borderRadius: 0 }}
       >
         <code className="block bg-transparent p-0">{text}</code>
       </pre>
@@ -47,11 +47,12 @@ export function CopyBlock({ text }: CopyBlockProps) {
         <button
           type="button"
           onClick={handleCopy}
-          className="flex items-center gap-1 rounded border border-border px-2 text-sm transition-colors hover:border-text-3"
+          className="flex items-center gap-1 border border-border px-2 text-sm transition-colors hover:border-text-3"
           style={{
             height: "var(--copy-btn-size)",
             color: buttonColor,
             backgroundColor: "var(--bg-input)",
+            borderRadius: 0,
           }}
         >
           {buttonLabel}

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { SITE_NAME, SITE_URL } from "./site";
 import type { SetupGuide, Skill, Job, Industry } from "@/content/types";
 
@@ -7,13 +8,55 @@ export interface JsonLd {
   [key: string]: unknown;
 }
 
+export function withGrokBot(title: string): string {
+  return title.includes("Grok Bot") ? title : `${title} · Grok Bot`;
+}
+
+export function withGrokBotDescription(description: string): string {
+  return description.includes("Grok Bot")
+    ? description
+    : `${description} Grok Bot.`;
+}
+
+export function buildMetadata(opts: {
+  title: string;
+  description: string;
+  path: string;
+}): Metadata {
+  const title = withGrokBot(opts.title);
+  const description = withGrokBotDescription(opts.description);
+  const url = opts.path === "/" ? SITE_URL : `${SITE_URL}${opts.path}`;
+  return {
+    title,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      title: `${title} · ${SITE_NAME}`,
+      description,
+      url,
+      siteName: SITE_NAME,
+      locale: "en_US",
+      type: "website",
+      images: [
+        {
+          url: "/opengraph-image",
+          width: 1200,
+          height: 630,
+          alt: "Boxcrew · Grok Bot",
+        },
+      ],
+    },
+  };
+}
+
 export function websiteJsonLd(): JsonLd {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: SITE_NAME,
     url: SITE_URL,
-    description: "Grok Bot setups you paste. Skills, jobs, and setup guides.",
+    description:
+      "Grok Bot setups you paste. Named desktop and iOS teammates that share one box.",
     potentialAction: {
       "@type": "SearchAction",
       target: `${SITE_URL}/?q={search_term_string}`,
@@ -43,7 +86,7 @@ export function howToJsonLd(guide: SetupGuide): JsonLd {
   return {
     "@context": "https://schema.org",
     "@type": "HowTo",
-    name: `${guide.title} - Grok Bot Setup`,
+    name: `${guide.title} · Grok Bot Setup`,
     description: guide.description,
     step: guide.steps.map((step, index) => ({
       "@type": "HowToStep",
@@ -81,7 +124,7 @@ export function articleJsonLd(
 
 export function skillArticleJsonLd(skill: Skill): JsonLd {
   return articleJsonLd(
-    `${skill.title} - Grok Bot Skill`,
+    `${skill.title} · Grok Bot Skill`,
     skill.description,
     `/skills/${skill.slug}`
   );
@@ -89,13 +132,16 @@ export function skillArticleJsonLd(skill: Skill): JsonLd {
 
 export function jobArticleJsonLd(job: Job): JsonLd {
   return articleJsonLd(
-    `${job.title} - Grok Bot Job`,
+    `${job.title} · Grok Bot Job`,
     job.description,
     `/jobs/${job.slug}`
   );
 }
 
-export function industryItemListJsonLd(industry: Industry, jobTitles: string[]): JsonLd {
+export function industryItemListJsonLd(
+  industry: Industry,
+  jobTitles: string[]
+): JsonLd {
   return {
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -177,20 +223,29 @@ export function collisionTableJsonLd(): JsonLd {
   return {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    name: "Grok vs Grok Bot Comparison",
-    description: "Understand the difference between Grok (the model) and Grok Bot (the Cursor agent).",
+    name: "Grok chat, Grok Bot, Cursor Cloud Agents",
+    description:
+      "Grok chat, Grok Bot, and Cursor Cloud Agents are three different products.",
     itemListElement: [
       {
         "@type": "ListItem",
         position: 1,
-        name: "Grok",
-        description: "AI language model created by xAI",
+        name: "Grok chat",
+        description: "xAI chat assistant on grok.com and X. No shared box.",
       },
       {
         "@type": "ListItem",
         position: 2,
         name: "Grok Bot",
-        description: "Cursor's implementation of an AI agent",
+        description:
+          "Named desktop and iOS teammates that share one cloud Linux computer.",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: "Cursor Cloud Agents",
+        description:
+          "Isolated coding VMs that clone a repo and open a pull request.",
       },
     ],
   };

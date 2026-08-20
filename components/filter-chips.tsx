@@ -25,9 +25,10 @@ export function FilterChips({ selected, onSelect }: FilterChipsProps) {
             type="button"
             onClick={() => onSelect(isPressed ? null : kind)}
             aria-pressed={isPressed}
-            className="rounded-full border px-3 text-sm transition-colors"
+            className="border px-3 text-sm transition-colors"
             style={{
               height: "var(--chip-height)",
+              borderRadius: 9999,
               borderColor: isPressed ? "var(--accent)" : "var(--border)",
               backgroundColor: isPressed ? "var(--accent-muted)" : "transparent",
               color: isPressed ? "var(--accent)" : "var(--text-2)",
@@ -41,13 +42,14 @@ export function FilterChips({ selected, onSelect }: FilterChipsProps) {
         <button
           type="button"
           onClick={() => onSelect(null)}
-          className="rounded-full border px-3 text-sm text-text-3 transition-colors hover:text-text-2"
+          className="border px-3 text-sm text-text-3 transition-colors hover:text-text-2"
           style={{
             height: "var(--chip-height)",
+            borderRadius: 9999,
             borderColor: "var(--border)",
           }}
         >
-          Clear filters
+          Clear
         </button>
       )}
     </div>

@@ -1,47 +1,31 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
-import { getPageBySlug } from "@/content";
+import Link from "next/link";
 import { Layout } from "@/components";
-import { collisionTableJsonLd } from "@/lib/seo";
+import { collisionTableJsonLd, buildMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildMetadata({
   title: "Grok vs Grok Bot",
   description:
-    "Understand the difference between Grok (the model) and Grok Bot (the Cursor agent).",
-};
+    "Grok chat, Grok Bot, and Cursor Cloud Agents are three different products. Grok Bot is named desktop and iOS teammates that share one box.",
+  path: "/grok-vs-grok-bot",
+});
 
-const COMPARISON_DATA = [
+const COLUMNS = [
   {
-    aspect: "Type",
-    grok: "AI language model",
-    grokBot: "Cursor agent",
+    name: "Grok chat",
+    body: "xAI chat assistant on grok.com and X. A conversation. No named roster, skills, routines, or box.",
   },
   {
-    aspect: "Creator",
-    grok: "xAI",
-    grokBot: "Cursor",
+    name: "Grok Bot",
+    body: "Named teammates on Cursor desktop and iOS 18. They share one cloud Linux computer: browser, files, terminal.",
   },
   {
-    aspect: "Access",
-    grok: "API / various interfaces",
-    grokBot: "Cursor Desktop + iOS 18",
-  },
-  {
-    aspect: "Configuration",
-    grok: "Prompts only",
-    grokBot: "Skills, jobs, routines, plugins",
-  },
-  {
-    aspect: "Guardrails",
-    grok: "Model-level safety",
-    grokBot: "Approval workflows, never lists",
+    name: "Cursor Cloud Agents",
+    body: "Isolated coding VMs. Each run clones a repo, works a branch, and opens a pull request. Not a shared box.",
   },
 ] as const;
 
 export default function GrokVsGrokBotPage() {
-  const page = getPageBySlug("grok-vs-grok-bot");
-  if (!page) notFound();
-
   const jsonLd = collisionTableJsonLd();
 
   return (
@@ -51,45 +35,31 @@ export default function GrokVsGrokBotPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <article style={{ maxWidth: "var(--blog-measure)" }}>
-        <h1 className="mb-4">{page.title}</h1>
-        <p className="mb-8 text-text-2">{page.description}</p>
+      <article className="interior-stack" style={{ maxWidth: "var(--page-max)" }}>
+        <header style={{ maxWidth: "var(--prose-max)" }}>
+          <h1>Grok, Grok Bot, Cloud Agents</h1>
+          <p className="mt-4 text-text-2">
+            Three products. One messy name. Grok Bot is the desktop and iOS
+            teammate product, not a chat window and not a coding VM.
+          </p>
+        </header>
 
-        <section className="mb-8 overflow-x-auto">
-          <table className="w-full border-collapse text-sm">
-            <thead>
-              <tr className="border-b border-border">
-                <th className="py-3 pr-4 text-left font-medium text-text-3">
-                  Aspect
-                </th>
-                <th className="px-4 py-3 text-left font-medium text-text-3">
-                  Grok
-                </th>
-                <th className="py-3 pl-4 text-left font-medium text-text-3">
-                  Grok Bot
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {COMPARISON_DATA.map((row) => (
-                <tr key={row.aspect} className="border-b border-border">
-                  <td className="py-3 pr-4 text-text-2">{row.aspect}</td>
-                  <td className="px-4 py-3 text-text-2">{row.grok}</td>
-                  <td className="py-3 pl-4 text-text-2">{row.grokBot}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <section>
+          <div className="grid gap-8 md:grid-cols-3">
+            {COLUMNS.map((col) => (
+              <div key={col.name} className="border-t border-border pt-4">
+                <h2>{col.name}</h2>
+                <p className="mt-3 text-text-2">{col.body}</p>
+              </div>
+            ))}
+          </div>
         </section>
 
-        <div className="space-y-6">
-          {page.sections.map((section, index) => (
-            <section key={index}>
-              <h2 className="mb-3 text-xl font-medium">{section.heading}</h2>
-              <p className="text-text-2">{section.content}</p>
-            </section>
-          ))}
-        </div>
+        <p className="text-text-2" style={{ maxWidth: "var(--prose-max)" }}>
+          <Link href="/blog/grok-bot-vs-grok">
+            Long answer → /blog/grok-bot-vs-grok
+          </Link>
+        </p>
       </article>
     </Layout>
   );

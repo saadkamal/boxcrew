@@ -3,7 +3,7 @@
  */
 
 export const SITE_NAME = "Boxcrew";
-export const SITE_URL = "https://boxcrew.com";
+export const SITE_URL = "https://boxcrew-production.up.railway.app";
 
 export const OFFICIAL_DOCS = {
   grokBot: "https://docs.x.ai/grok-bot/overview",
@@ -19,4 +19,12 @@ export const JULES_DEFINITION = `Grok Bot is a Cursor desktop and iOS 18 app for
 
 export const PLAN_GATES = ["Ultra", "Teams Premium", "SuperGrok Heavy"] as const;
 
-export const DISAMBIGUATION_TEXT = "Not Grok chat. Not Cursor Cloud Agents. Desktop + iOS teammates that share one box.";
+export const DISAMBIGUATION_TEXT =
+  "Not Grok chat. Not Cursor Cloud Agents. Desktop + iOS teammates that share one box.";
+
+export const FEATURED_HOME = [
+  { title: "Install Plan", href: "/setup/install-plan", kind: "setup" as const },
+  { title: "Chief of Staff", href: "/jobs/chief-of-staff", kind: "job" as const },
+  { title: "Sales Outbound", href: "/jobs/sales-outbound", kind: "job" as const },
+  { title: "Account Health", href: "/jobs/account-health", kind: "job" as const },
+] as const;

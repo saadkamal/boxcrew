@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { jobs, getJobBySlug } from "@/content";
 import { Layout, CopyBlock, IncompleteWell } from "@/components";
-import { jobArticleJsonLd } from "@/lib/seo";
+import { jobArticleJsonLd, buildMetadata } from "@/lib/seo";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -17,10 +17,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { slug } = await params;
   const job = getJobBySlug(slug);
   if (!job) return { title: "Not Found" };
-  return {
-    title: job.title,
+  return buildMetadata({
+    title: `${job.title} · Grok Bot`,
     description: `Grok Bot job: ${job.description}`,
-  };
+    path: `/jobs/${slug}`,
+  });
 }
 
 function getMissingFields(job: {
@@ -54,46 +55,49 @@ export default async function JobPage({ params }: PageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <article style={{ maxWidth: "var(--blog-measure)" }}>
-        <h1 className="mb-4">{job.title}</h1>
-        <p className="mb-8 text-text-2">{job.description}</p>
+      <article className="interior-stack" style={{ maxWidth: "var(--prose-max)" }}>
+        <header>
+          <h1>{job.title}</h1>
+          <p className="mt-4 text-text-2">{job.description}</p>
+        </header>
 
         {missingFields.length > 0 && (
-          <div className="mb-8">
-            <IncompleteWell missingFields={missingFields} />
-          </div>
+          <IncompleteWell missingFields={missingFields} />
         )}
 
-        <section
-          className="mb-8 rounded border border-border p-4"
-          style={{ backgroundColor: "var(--bg-raised)" }}
-        >
-          <h2 className="mb-2 font-medium">Bot Persona</h2>
-          <p className="text-text-2">{job.botDescription}</p>
-        </section>
-
-        <section className="mb-8">
-          <h2 className="mb-3 text-xl font-medium">Outcome</h2>
-          <p className="text-text-2">{job.outcome}</p>
-        </section>
-
-        <section className="mb-8">
-          <h2 className="mb-3 text-xl font-medium">First Task</h2>
+        <section>
+          <h2>First task</h2>
           <p className="text-text-2">{job.firstTask}</p>
         </section>
 
-        <section className="mb-8">
-          <h2 className="mb-3 text-xl font-medium">Primary Skill</h2>
-          <Link
-            href={`/skills/${job.primarySkill}`}
-            className="inline-block rounded border border-border px-3 py-2 text-text-2 transition-colors hover:border-accent hover:text-accent"
-          >
+        <section>
+          <h2>Primary skill</h2>
+          <Link href={`/skills/${job.primarySkill}`} className="text-text-2">
             {job.primarySkill}
           </Link>
         </section>
 
-        <section className="mb-8">
-          <h2 className="mb-3 text-xl font-medium">Sources</h2>
+        <section>
+          <h2>Routine</h2>
+          <p className="text-text-2">{job.routine}</p>
+        </section>
+
+        <section>
+          <h2>Never list</h2>
+          <ul className="space-y-2 text-text-2">
+            {job.neverList.map((item, i) => (
+              <li key={i}>{item}</li>
+            ))}
+          </ul>
+        </section>
+
+        <section>
+          <h2>Outcome</h2>
+          <p className="text-text-2">{job.outcome}</p>
+        </section>
+
+        <section>
+          <h2>Sources</h2>
           <ul className="list-inside list-disc space-y-1 text-text-2">
             {job.sources.map((source, i) => (
               <li key={i}>{source}</li>
@@ -101,40 +105,21 @@ export default async function JobPage({ params }: PageProps) {
           </ul>
         </section>
 
-        <section className="mb-8">
-          <h2 className="mb-3 text-xl font-medium">Routine</h2>
-          <p className="text-text-2">{job.routine}</p>
-        </section>
-
-        <section className="mb-8">
-          <h2 className="mb-4 text-xl font-medium">Copy-Paste Prompt</h2>
+        <section>
+          <h3>Copy-paste prompt</h3>
           <CopyBlock text={job.copyPaste} />
         </section>
 
-        <section className="mb-8">
-          <h2 className="mb-3 text-xl font-medium">Reviewable Artifact</h2>
+        <section>
+          <h2>Reviewable artifact</h2>
           <p className="text-text-2">{job.reviewableArtifact}</p>
         </section>
 
-        <section className="mb-8">
-          <h2 className="mb-3 text-xl font-medium">Never List</h2>
-          <ul className="space-y-2">
-            {job.neverList.map((item, i) => (
-              <li key={i} className="flex items-start gap-2 text-text-2">
-                <span className="flex-shrink-0" style={{ color: "var(--danger)" }}>
-                  ✕
-                </span>
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
-        </section>
-
         <section
-          className="rounded border border-border p-4"
+          className="border border-border p-4"
           style={{ backgroundColor: "var(--bg-raised)" }}
         >
-          <h2 className="mb-3 font-medium">Approval & Stale Data</h2>
+          <h2>Approval and stale data</h2>
           <p className="text-sm text-text-2">{job.approvalAndStaleData}</p>
         </section>
       </article>

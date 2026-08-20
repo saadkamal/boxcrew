@@ -3,7 +3,7 @@ import { SITE_NAME } from "@/lib/site";
 
 export const runtime = "edge";
 
-export const alt = "Boxcrew - Grok Bot setups you paste";
+export const alt = "Boxcrew · Grok Bot";
 export const size = {
   width: 1200,
   height: 630,
@@ -30,6 +30,7 @@ export default async function Image() {
             fontSize: 72,
             fontWeight: 600,
             color: "#F2F0EA",
+            letterSpacing: "-0.04em",
             marginBottom: 24,
           }}
         >
@@ -37,35 +38,14 @@ export default async function Image() {
         </div>
         <div
           style={{
-            fontSize: 32,
+            fontSize: 28,
             color: "#A8A49A",
             maxWidth: 800,
             textAlign: "center",
+            lineHeight: 1.4,
           }}
         >
           Grok Bot setups you paste
-        </div>
-        <div
-          style={{
-            marginTop: 48,
-            display: "flex",
-            gap: 16,
-          }}
-        >
-          {["Skills", "Jobs", "Setup"].map((tag) => (
-            <div
-              key={tag}
-              style={{
-                fontSize: 20,
-                color: "#E3A53A",
-                padding: "8px 16px",
-                border: "1px solid #2A2A2E",
-                borderRadius: 9999,
-              }}
-            >
-              {tag}
-            </div>
-          ))}
         </div>
       </div>
     ),

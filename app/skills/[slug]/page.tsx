@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { skills, getSkillBySlug } from "@/content";
 import { Layout, CopyBlock, IncompleteWell } from "@/components";
-import { skillArticleJsonLd } from "@/lib/seo";
+import { skillArticleJsonLd, buildMetadata } from "@/lib/seo";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -16,10 +16,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { slug } = await params;
   const skill = getSkillBySlug(slug);
   if (!skill) return { title: "Not Found" };
-  return {
-    title: skill.title,
+  return buildMetadata({
+    title: `${skill.title} · Grok Bot`,
     description: `Grok Bot skill: ${skill.description}`,
-  };
+    path: `/skills/${slug}`,
+  });
 }
 
 function getMissingFields(skill: {
@@ -53,23 +54,23 @@ export default async function SkillPage({ params }: PageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <article style={{ maxWidth: "var(--blog-measure)" }}>
-        <h1 className="mb-4">{skill.title}</h1>
-        <p className="mb-8 text-text-2">{skill.description}</p>
+      <article className="interior-stack" style={{ maxWidth: "var(--prose-max)" }}>
+        <header>
+          <h1>{skill.title}</h1>
+          <p className="mt-4 text-text-2">{skill.description}</p>
+        </header>
 
         {missingFields.length > 0 && (
-          <div className="mb-8">
-            <IncompleteWell missingFields={missingFields} />
-          </div>
+          <IncompleteWell missingFields={missingFields} />
         )}
 
-        <section className="mb-8">
-          <h2 className="mb-3 text-xl font-medium">Outcome</h2>
+        <section>
+          <h2>Outcome</h2>
           <p className="text-text-2">{skill.outcome}</p>
         </section>
 
-        <section className="mb-8">
-          <h2 className="mb-3 text-xl font-medium">Sources</h2>
+        <section>
+          <h2>Sources</h2>
           <ul className="list-inside list-disc space-y-1 text-text-2">
             {skill.sources.map((source, i) => (
               <li key={i}>{source}</li>
@@ -77,21 +78,21 @@ export default async function SkillPage({ params }: PageProps) {
           </ul>
         </section>
 
-        <section className="mb-8">
-          <h2 className="mb-4 text-xl font-medium">Copy-Paste Prompt</h2>
+        <section>
+          <h3>Copy-paste prompt</h3>
           <CopyBlock text={skill.copyPaste} />
         </section>
 
-        <section className="mb-8">
-          <h2 className="mb-3 text-xl font-medium">Reviewable Artifact</h2>
+        <section>
+          <h2>Reviewable artifact</h2>
           <p className="text-text-2">{skill.reviewableArtifact}</p>
         </section>
 
         <section
-          className="rounded border border-border p-4"
+          className="border border-border p-4"
           style={{ backgroundColor: "var(--bg-raised)" }}
         >
-          <h2 className="mb-3 font-medium">Approval & Stale Data</h2>
+          <h2>Approval and stale data</h2>
           <p className="text-sm text-text-2">{skill.approvalAndStaleData}</p>
         </section>
       </article>

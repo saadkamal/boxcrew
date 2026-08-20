@@ -7,7 +7,7 @@ export function StickyDisambiguation() {
       className="sticky z-30 border-b border-border"
       style={{
         top: "var(--header-height)",
-        backgroundColor: "var(--bg-raised)",
+        backgroundColor: "var(--bg)",
       }}
     >
       <div
@@ -19,10 +19,7 @@ export function StickyDisambiguation() {
         }}
       >
         <p className="text-text-2">{DISAMBIGUATION_TEXT}</p>
-        <Link
-          href="/grok-vs-grok-bot"
-          className="whitespace-nowrap text-text-2 underline decoration-border hover:text-accent"
-        >
+        <Link href="/grok-vs-grok-bot" className="quiet-link whitespace-nowrap">
           Grok vs Grok Bot
         </Link>
       </div>

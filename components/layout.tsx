@@ -8,11 +8,12 @@ import { CommandPalette } from "./command-palette";
 
 interface LayoutProps {
   children: React.ReactNode;
-  hideDisambiguation?: boolean;
+  variant?: "home" | "page";
 }
 
-export function Layout({ children, hideDisambiguation }: LayoutProps) {
+export function Layout({ children, variant = "page" }: LayoutProps) {
   const [paletteOpen, setPaletteOpen] = useState(false);
+  const isHome = variant === "home";
 
   return (
     <>
@@ -21,19 +22,19 @@ export function Layout({ children, hideDisambiguation }: LayoutProps) {
       </a>
 
       <Header onOpenPalette={() => setPaletteOpen(true)} />
-      {!hideDisambiguation && <StickyDisambiguation />}
+      <StickyDisambiguation />
 
       <main
         id="content"
         className="flex-1"
         style={{
-          maxWidth: "var(--page-max)",
+          maxWidth: isHome ? "var(--home-max)" : "var(--page-max)",
           marginLeft: "auto",
           marginRight: "auto",
           paddingLeft: "var(--gutter)",
           paddingRight: "var(--gutter)",
-          paddingTop: "var(--space-8)",
-          paddingBottom: "var(--space-16)",
+          paddingTop: isHome ? "var(--home-inset)" : "var(--space-64)",
+          paddingBottom: "var(--space-64)",
           width: "100%",
         }}
       >
