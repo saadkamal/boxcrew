@@ -1,9 +1,5 @@
-/**
- * Content catalog index.
- */
-
 export * from "./types";
-export { setupGuides, getSetupGuideBySlug } from "./setup";
+export { setupGuides, getSetupBySlug } from "./setup";
 export { skills, getSkillBySlug } from "./skills";
 export { jobs, getJobBySlug } from "./jobs";
 export { industries, getIndustryBySlug } from "./industries";
