@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Layout } from "@/components";
+import { Layout, BlogJsonLd } from "@/components";
 import { blogPosts, getBlogPostsByCategory, BLOG_CATEGORIES } from "@/content";
+import { SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Blog",
@@ -18,6 +19,11 @@ const CATEGORY_ORDER: Array<keyof typeof BLOG_CATEGORIES> = [
 export default function BlogIndexPage() {
   return (
     <Layout>
+      <BlogJsonLd
+        headline="Blog"
+        description="Grok Bot guides, comparisons, and setup articles."
+        url={`${SITE_URL}/blog`}
+      />
       <article>
         <h1 className="mb-4">Blog</h1>
         <p className="mb-8 text-muted">
