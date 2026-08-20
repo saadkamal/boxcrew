@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { Layout } from "@/components";
+import { Layout, Markdown } from "@/components";
 import { blogPosts, getBlogPostBySlug } from "@/content";
 
 interface PageProps {
@@ -36,32 +36,10 @@ export default async function BlogPostPage({ params }: PageProps) {
         </span>
         <h1 className="mt-4 mb-6">{post.title}</h1>
         
-        {post.stickyLine && (
-          <p className="text-[14px] leading-[22px] text-foreground-subtle mb-8 pb-8 border-b border-border">
-            {post.stickyLine}
-          </p>
-        )}
-        
         {post.body && (
-          <div className="text-[15px] leading-[24px] text-foreground-muted whitespace-pre-wrap mb-12">
-            {post.body}
+          <div className="text-[15px] leading-[24px] text-foreground-muted mb-12">
+            <Markdown>{post.body}</Markdown>
           </div>
-        )}
-        
-        {post.faq && post.faq.length > 0 && (
-          <section className="mb-12">
-            <h2 className="text-[10px] font-medium tracking-[0.12em] text-foreground-subtle uppercase mb-4">
-              FAQ
-            </h2>
-            <dl className="border-t border-border">
-              {post.faq.map((item) => (
-                <div key={item.question} className="py-4 border-b border-border">
-                  <dt className="text-[15px] font-medium text-foreground mb-2">{item.question}</dt>
-                  <dd className="text-[14px] leading-[22px] text-foreground-muted">{item.answer}</dd>
-                </div>
-              ))}
-            </dl>
-          </section>
         )}
 
         <nav className="mt-16 pt-8 border-t border-border flex items-center justify-between gap-4">
