@@ -6,4 +6,4 @@
  */
 
 export const SITE_NAME = "Boxcrew";
-export const SITE_URL = "http://localhost:3000";
+export const SITE_URL = "https://boxcrew-production.up.railway.app";
