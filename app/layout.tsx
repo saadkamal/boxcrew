@@ -7,7 +7,7 @@ export const metadata: Metadata = {
     default: SITE_NAME,
     template: `%s | ${SITE_NAME}`,
   },
-  description: "Grok Bot use-case directory. Skills, jobs, and setup guides.",
+  description: "Grok Bot setups you paste.",
 };
 
 export default function RootLayout({
