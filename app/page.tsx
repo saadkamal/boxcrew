@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useCallback } from "react";
+import { useCallback } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Search } from "@/components";
@@ -65,6 +65,9 @@ function HomeContent() {
             Boxcrew
           </Link>
           <nav className="flex items-center gap-6">
+            <Link href="/setup/install-plan" className="text-[13px]" style={{ color: "#6E6A62" }}>
+              Setup
+            </Link>
             <Link href="/skills/account-health-watch" className="text-[13px]" style={{ color: "#6E6A62" }}>
               Skills
             </Link>
@@ -81,7 +84,18 @@ function HomeContent() {
         </div>
       </header>
 
-      <main className="flex-1 flex flex-col items-center justify-center px-6 pt-11">
+      <div
+        className="fixed top-11 left-0 right-0 z-40"
+        style={{ backgroundColor: "#0B0B0C", borderBottom: "1px solid #2A2A2E" }}
+      >
+        <div className="max-w-[720px] mx-auto px-6 py-2 text-center">
+          <p className="text-[11px]" style={{ color: "#6E6A62" }}>
+            Not Grok chat. Not Cursor Cloud Agents.
+          </p>
+        </div>
+      </div>
+
+      <main className="flex-1 flex flex-col items-center justify-center px-6 pt-24">
         <div className="w-full max-w-[720px] mx-auto">
           <p
             className="text-[40px] leading-[48px] font-medium tracking-[-0.02em] text-center mb-12"
@@ -125,17 +139,6 @@ function HomeContent() {
           </p>
         </div>
       </main>
-
-      <div
-        className="sticky bottom-0"
-        style={{ borderTop: "1px solid #2A2A2E", backgroundColor: "#0B0B0C" }}
-      >
-        <div className="max-w-[720px] mx-auto px-6 py-3 text-center">
-          <p className="text-[11px]" style={{ color: "#6E6A62" }}>
-            Not Grok chat. Not Cursor Cloud Agents.
-          </p>
-        </div>
-      </div>
 
       <footer style={{ borderTop: "1px solid #2A2A2E" }}>
         <div className="max-w-[720px] mx-auto px-6 py-6 flex items-center justify-between">

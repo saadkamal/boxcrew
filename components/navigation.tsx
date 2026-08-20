@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const navItems = [
+  { href: "/setup/install-plan", label: "Setup", matchPrefix: "/setup" },
   { href: "/skills/account-health-watch", label: "Skills", matchPrefix: "/skills" },
   { href: "/jobs/sales-outbound", label: "Jobs", matchPrefix: "/jobs" },
   { href: "/industries/b2b-saas", label: "Industries", matchPrefix: "/industries" },
