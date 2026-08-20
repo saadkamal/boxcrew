@@ -4,7 +4,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const navItems = [
-  { href: "/setup/install-plan", label: "Guides", matchPrefix: "/setup" },
   { href: "/skills/account-health-watch", label: "Skills", matchPrefix: "/skills" },
   { href: "/jobs/sales-outbound", label: "Jobs", matchPrefix: "/jobs" },
   { href: "/industries/b2b-saas", label: "Industries", matchPrefix: "/industries" },
@@ -22,11 +21,8 @@ export function Navigation() {
           <Link
             key={item.href}
             href={item.href}
-            className={`text-[13px] transition-colors ${
-              isActive
-                ? "text-foreground-muted"
-                : "text-foreground-subtle hover:text-foreground-muted"
-            }`}
+            className="text-[13px] transition-colors"
+            style={{ color: isActive ? "#A8A49A" : "#6E6A62" }}
           >
             {item.label}
           </Link>
