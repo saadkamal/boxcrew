@@ -1,41 +1,56 @@
 import type { Industry } from "./types";
+import { slug } from "./types";
 
-/**
- * Industries catalog.
- * 4 industry verticals with relevant job links.
- * Job associations are locked per requirements.
- */
-export const industries: readonly Industry[] = [
+export const industries = [
   {
     kind: "industry",
-    slug: "b2b-saas",
+    slug: slug("b2b-saas"),
     title: "B2B SaaS",
     description: "Grok Bot use cases for B2B software companies.",
-    jobSlugs: ["sales-outbound", "account-health", "paid-media", "chief-of-staff"],
+    jobSlugs: [
+      slug("sales-outbound"),
+      slug("account-health"),
+      slug("paid-media"),
+      slug("chief-of-staff"),
+    ],
+    startGuide: slug("install-plan"),
   },
   {
     kind: "industry",
-    slug: "recruiting",
+    slug: slug("recruiting"),
     title: "Recruiting",
     description: "Grok Bot use cases for recruiting and staffing.",
-    jobSlugs: ["talent-scout", "chief-of-staff"],
+    jobSlugs: [
+      slug("talent-scout"),
+      slug("chief-of-staff"),
+    ],
+    startGuide: slug("install-plan"),
   },
   {
     kind: "industry",
-    slug: "engineering-product",
+    slug: slug("engineering-product"),
     title: "Engineering & Product",
     description: "Grok Bot use cases for engineering and product teams.",
-    jobSlugs: ["product-performance", "bug-reproduction", "chief-of-staff"],
+    jobSlugs: [
+      slug("product-performance"),
+      slug("bug-reproduction"),
+      slug("chief-of-staff"),
+    ],
+    startGuide: slug("install-plan"),
   },
   {
     kind: "industry",
-    slug: "finance-ops",
+    slug: slug("finance-ops"),
     title: "Finance Ops",
     description: "Grok Bot use cases for finance and operations teams.",
-    jobSlugs: ["expense-manager", "chief-of-staff"],
+    jobSlugs: [
+      slug("expense-manager"),
+      slug("chief-of-staff"),
+    ],
+    startGuide: slug("install-plan"),
   },
-] as const;
+] as const satisfies readonly Industry[];
 
-export function getIndustryBySlug(slug: string): Industry | undefined {
-  return industries.find((industry) => industry.slug === slug);
+export function getIndustryBySlug(s: string): Industry | undefined {
+  return industries.find((industry) => industry.slug === s);
 }

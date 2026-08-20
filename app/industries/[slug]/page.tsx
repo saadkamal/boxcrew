@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { industries, getIndustryBySlug, getJobBySlug } from "@/content";
+import { industries, getIndustryBySlug, getJobBySlug, getSetupBySlug } from "@/content";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -30,10 +30,26 @@ export default async function IndustryPage({ params }: PageProps) {
     .map((jobSlug) => getJobBySlug(jobSlug))
     .filter((job): job is NonNullable<typeof job> => job !== undefined);
 
+  const startGuide = getSetupBySlug(industry.startGuide);
+
   return (
     <article>
       <h1 className="text-3xl font-bold mb-2">{industry.title}</h1>
       <p className="text-lg text-muted mb-8">{industry.description}</p>
+
+      {startGuide && (
+        <section className="mb-8 p-4 bg-accent/10 border border-accent/20 rounded-lg">
+          <h2 className="font-semibold mb-2">Start Here</h2>
+          <Link
+            href={`/setup/${startGuide.slug}`}
+            className="flex items-center gap-2 text-accent hover:underline"
+          >
+            <span className="text-xl">→</span>
+            <span>{startGuide.title}</span>
+          </Link>
+          <p className="text-sm text-muted mt-2">{startGuide.description}</p>
+        </section>
+      )}
 
       <section>
         <h2 className="text-xl font-semibold mb-4">Relevant Jobs</h2>
@@ -50,7 +66,7 @@ export default async function IndustryPage({ params }: PageProps) {
               <p className="mt-1 text-sm text-muted">{job.description}</p>
               <div className="mt-3 flex items-center gap-2 text-xs text-muted">
                 <span className="px-2 py-0.5 bg-border rounded">
-                  Primary: {job.primarySkill}
+                  Skills: {job.skills.join(", ")}
                 </span>
               </div>
             </Link>

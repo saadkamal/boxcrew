@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Layout } from "@/components";
-import { getPageBySlug } from "@/content";
+import { getPageBySlug, jobs } from "@/content";
 import { notFound } from "next/navigation";
 
 export const metadata: Metadata = {
@@ -26,6 +27,38 @@ export default function GlossaryPage() {
             </div>
           ))}
         </dl>
+
+        <section className="mt-8 p-4 bg-card border border-border rounded-lg">
+          <h2 className="font-semibold mb-3">Quick Links</h2>
+          <div className="flex flex-wrap gap-4">
+            <Link
+              href="/setup/install-plan"
+              className="text-accent hover:underline"
+            >
+              → Install Plan (Start Here)
+            </Link>
+            <Link
+              href="/jobs/sales-outbound"
+              className="text-accent hover:underline"
+            >
+              → Jobs Index
+            </Link>
+          </div>
+          <div className="mt-4">
+            <h3 className="text-sm font-medium mb-2">All Jobs ({jobs.length})</h3>
+            <div className="flex flex-wrap gap-2">
+              {jobs.map((job) => (
+                <Link
+                  key={job.slug}
+                  href={`/jobs/${job.slug}`}
+                  className="px-2 py-1 text-xs bg-border rounded hover:bg-accent hover:text-accent-foreground transition-colors"
+                >
+                  {job.title}
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
       </article>
     </Layout>
   );
