@@ -14,15 +14,18 @@ export default function GrokVsGrokBotPage() {
 
   return (
     <Layout>
-      <article className="max-w-3xl">
-        <h1 className="text-3xl font-bold mb-4">{page.title}</h1>
-        <p className="text-lg text-muted mb-8">{page.description}</p>
+      <article className="prose max-w-[680px]">
+        <span className="text-[10px] font-medium tracking-[0.12em] text-foreground-subtle uppercase">
+          Reference
+        </span>
+        <h1 className="mt-4 mb-6">{page.title}</h1>
+        <p className="text-[15px] leading-[24px] text-foreground-muted">{page.description}</p>
 
-        <div className="space-y-8">
+        <div className="space-y-10 mt-8">
           {page.sections.map((section, index) => (
             <section key={index}>
-              <h2 className="text-xl font-semibold mb-3">{section.heading}</h2>
-              <p className="text-muted">{section.content}</p>
+              <h2>{section.heading}</h2>
+              <p className="text-[15px] leading-[24px] text-foreground-muted">{section.content}</p>
             </section>
           ))}
         </div>

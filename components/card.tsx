@@ -11,29 +11,18 @@ export function Card({ href, title, description, badge }: CardProps) {
   return (
     <Link
       href={href}
-      className="block p-4 bg-card border border-border rounded-lg hover:border-accent transition-colors hover:no-underline group"
+      className="group flex items-center justify-between py-3 border-b border-border last:border-b-0"
     >
-      <div className="flex items-start justify-between gap-2">
-        <h3 className="font-medium text-foreground group-hover:text-accent transition-colors">
-          {title}
-        </h3>
+      <div className="flex items-center gap-4 min-w-0">
         {badge && (
-          <span className="text-xs px-2 py-0.5 bg-border rounded text-muted">
+          <span className="text-[10px] font-medium tracking-[0.1em] text-foreground-subtle w-14 flex-shrink-0 uppercase">
             {badge}
           </span>
         )}
+        <span className="text-[14px] text-foreground-muted group-hover:text-foreground truncate transition-colors">
+          {title}
+        </span>
       </div>
-      <p className="mt-1 text-sm text-muted line-clamp-2">{description}</p>
     </Link>
-  );
-}
-
-interface CardGridProps {
-  children: React.ReactNode;
-}
-
-export function CardGrid({ children }: CardGridProps) {
-  return (
-    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{children}</div>
   );
 }

@@ -2,27 +2,14 @@ import Link from "next/link";
 
 export function Footer() {
   return (
-    <footer className="border-t border-border mt-auto">
-      <div className="max-w-5xl mx-auto px-4 py-6">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-muted">
-            Boxcrew is not affiliated with Cursor, xAI, or SpaceXAI.
-          </p>
-          <div className="flex items-center gap-4">
-            <Link
-              href="/grok-vs-grok-bot"
-              className="text-sm text-muted hover:text-foreground"
-            >
-              Grok vs Grok Bot
-            </Link>
-            <Link
-              href="/glossary"
-              className="text-sm text-muted hover:text-foreground"
-            >
-              Glossary
-            </Link>
-          </div>
-        </div>
+    <footer style={{ borderTop: "1px solid #2A2A2E" }}>
+      <div className="max-w-[1080px] mx-auto px-6 py-6 flex items-center justify-between">
+        <p className="text-[11px]" style={{ color: "#6E6A62" }}>
+          Boxcrew is not affiliated with Cursor, xAI, or SpaceXAI.
+        </p>
+        <Link href="/glossary" className="text-[11px]" style={{ color: "#6E6A62" }}>
+          Glossary
+        </Link>
       </div>
     </footer>
   );

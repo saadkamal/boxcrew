@@ -9,9 +9,9 @@ const sidebarItems = setupGuides.map((g) => ({
 export default function SetupLayout({ children }: { children: React.ReactNode }) {
   return (
     <Layout>
-      <div className="flex gap-8">
+      <div className="flex gap-12">
         <Sidebar basePath="/setup" items={sidebarItems} title="Setup Guides" />
-        <div className="flex-1 min-w-0">{children}</div>
+        <div className="flex-1 min-w-0 max-w-3xl">{children}</div>
       </div>
     </Layout>
   );
