@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/site";
-import { setupGuides, skills, jobs, industries } from "@/content";
+import { setupGuides, skills, jobs, industries, blogPosts } from "@/content";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
@@ -39,5 +39,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  return [...staticPages, ...setupPages, ...skillPages, ...jobPages, ...industryPages];
+  const blogIndexPage: MetadataRoute.Sitemap = [
+    { url: `${SITE_URL}/blog`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
+  ];
+
+  const blogPostPages: MetadataRoute.Sitemap = blogPosts.map((post) => ({
+    url: `${SITE_URL}/blog/${post.slug}`,
+    lastModified: now,
+    changeFrequency: "monthly",
+    priority: 0.7,
+  }));
+
+  return [...staticPages, ...setupPages, ...skillPages, ...jobPages, ...industryPages, ...blogIndexPage, ...blogPostPages];
 }

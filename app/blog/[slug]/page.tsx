@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Layout } from "@/components";
+import { Layout, BlogJsonLd } from "@/components";
 import { blogPosts, getBlogPostBySlug } from "@/content";
+import { SITE_URL } from "@/lib/site";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -25,6 +26,12 @@ export default async function BlogPostPage({ params }: PageProps) {
 
   return (
     <Layout>
+      <BlogJsonLd
+        headline={post.title}
+        description={post.description}
+        url={`${SITE_URL}/blog/${slug}`}
+        faq={post.faq}
+      />
       <article>
         <h1 className="mb-4">{post.title}</h1>
         {post.stickyLine && (
