@@ -6,10 +6,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
   const routes = allRoutes();
 
-  return routes.map((route) => ({
-    url: `${SITE_URL}${route}`,
-    lastModified: now,
-    changeFrequency: route === "/" ? "weekly" : "monthly",
-    priority: route === "/" ? 1 : 0.7,
-  }));
+  return routes.map((route) => {
+    const isBlog = route.startsWith("/blog");
+    const isHome = route === "/";
+    
+    return {
+      url: `${SITE_URL}${route}`,
+      lastModified: now,
+      changeFrequency: isHome ? "weekly" : isBlog ? "weekly" : "monthly",
+      priority: isHome ? 1 : isBlog ? 0.8 : 0.7,
+    };
+  });
 }

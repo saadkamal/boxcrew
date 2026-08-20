@@ -16,12 +16,15 @@ import { skills as _skills } from "@/content/skills";
 import { jobs as _jobs } from "@/content/jobs";
 import { industries as _industries } from "@/content/industries";
 import { pages as _pages } from "@/content/pages";
+import { posts as _posts } from "@/content/posts";
+import type { Post } from "@/content/posts";
 
 const setupGuides: readonly Setup[] = _setupGuides;
 const skills: readonly Skill[] = _skills;
 const jobs: readonly Job[] = _jobs;
 const industries: readonly Industry[] = _industries;
 const pages: readonly StaticPage[] = _pages;
+const posts: readonly Post[] = _posts;
 
 /** Locked slugs per Vera. No additions allowed. */
 const LOCKED_SETUP_SLUGS = new Set([
@@ -89,8 +92,8 @@ export function search(opts: { q: string; kind?: Kind }): readonly CatalogItem[]
   });
 }
 
-/** All routes for sitemap. Home + 38 content routes = 39. */
-export function allRoutes(): readonly string[] {
+/** All catalog routes. Home + 38 content routes = 39. */
+export function catalogRoutes(): readonly string[] {
   const routes: string[] = ["/"];
   
   for (const item of setupGuides) {
@@ -110,6 +113,20 @@ export function allRoutes(): readonly string[] {
   }
   
   return routes;
+}
+
+/** Blog routes. /blog index + each post. */
+export function blogRoutes(): readonly string[] {
+  const routes: string[] = ["/blog"];
+  for (const post of posts) {
+    routes.push(`/blog/${post.slug}`);
+  }
+  return routes;
+}
+
+/** All routes for sitemap. Catalog (39) + blog. */
+export function allRoutes(): readonly string[] {
+  return [...catalogRoutes(), ...blogRoutes()];
 }
 
 /** Get jobs for an industry. */
@@ -237,10 +254,10 @@ export function assertComplete(): void {
     if (!job.staleDataRule) errors.push(`Job ${job.slug} missing staleDataRule`);
   }
   
-  // Route count validation
-  const routes = allRoutes();
-  if (routes.length !== 39) {
-    errors.push(`Expected 39 routes, got ${routes.length}`);
+  // Catalog route count validation (39 locked)
+  const catRoutes = catalogRoutes();
+  if (catRoutes.length !== 39) {
+    errors.push(`Expected 39 catalog routes, got ${catRoutes.length}`);
   }
   
   if (errors.length > 0) {
