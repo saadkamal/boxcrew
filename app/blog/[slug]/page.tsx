@@ -32,7 +32,7 @@ export default async function BlogPostPage({ params }: PageProps) {
         )}
         {post.body ? (
           <div className="mb-8 text-sm">
-            <Markdown title={post.title} stickyLine={post.stickyLine}>
+            <Markdown stickyLine={post.stickyLine}>
               {post.body}
             </Markdown>
           </div>

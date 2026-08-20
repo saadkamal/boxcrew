@@ -7,28 +7,22 @@ import type { ComponentPropsWithoutRef, ReactNode } from "react";
 
 interface MarkdownProps {
   children: string;
-  title?: string;
   stickyLine?: string;
 }
 
-function stripDuplicates(
-  body: string,
-  title?: string,
-  stickyLine?: string
-): string {
-  let content = body;
+const COMMON_STICKY =
+  "Not Grok chat. Not Cursor Cloud Agents. Desktop + iOS teammates that share one box.";
 
-  const lines = content.split("\n");
+function stripDuplicates(body: string, stickyLine?: string): string {
+  const lines = body.split("\n");
   let startIndex = 0;
 
-  if (lines.length > 0) {
-    const firstLine = lines[0].trim();
-    if (firstLine.startsWith("# ")) {
-      const h1Text = firstLine.slice(2).trim();
-      if (title && normalizeText(h1Text) === normalizeText(title)) {
-        startIndex = 1;
-      }
-    }
+  while (startIndex < lines.length && lines[startIndex].trim() === "") {
+    startIndex++;
+  }
+
+  if (startIndex < lines.length && lines[startIndex].trim().startsWith("# ")) {
+    startIndex++;
   }
 
   while (startIndex < lines.length && lines[startIndex].trim() === "") {
@@ -37,12 +31,11 @@ function stripDuplicates(
 
   if (startIndex < lines.length) {
     const nextLine = lines[startIndex].trim();
-    const commonSticky =
-      "Not Grok chat. Not Cursor Cloud Agents. Desktop + iOS teammates that share one box.";
+    const normalized = normalizeText(nextLine);
 
     if (
-      (stickyLine && normalizeText(nextLine) === normalizeText(stickyLine)) ||
-      normalizeText(nextLine) === normalizeText(commonSticky)
+      normalized === normalizeText(COMMON_STICKY) ||
+      (stickyLine && normalized === normalizeText(stickyLine))
     ) {
       startIndex++;
     }
@@ -89,8 +82,8 @@ function CustomLink({ href, children, ...props }: AnchorProps): ReactNode {
   );
 }
 
-export function Markdown({ children, title, stickyLine }: MarkdownProps) {
-  const content = stripDuplicates(children, title, stickyLine);
+export function Markdown({ children, stickyLine }: MarkdownProps) {
+  const content = stripDuplicates(children, stickyLine);
 
   return (
     <ReactMarkdown
