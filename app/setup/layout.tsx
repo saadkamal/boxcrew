@@ -1,5 +1,5 @@
 import { Layout, Sidebar } from "@/components";
-import { setupGuides } from "@/content";
+import { setupGuides } from "@/content/setup";
 
 const sidebarItems = setupGuides.map((g) => ({
   slug: g.slug,

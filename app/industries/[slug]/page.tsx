@@ -1,10 +1,17 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { industries, getIndustryBySlug, getJobBySlug } from "@/content";
+import { industries } from "@/content/industries";
+import { jobs } from "@/content/jobs";
+import { setupGuides } from "@/content/setup";
+import { jobsOf } from "@/lib/catalog";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
+}
+
+function getIndustryBySlug(s: string) {
+  return industries.find((industry) => industry.slug === s);
 }
 
 export async function generateStaticParams() {
@@ -26,14 +33,27 @@ export default async function IndustryPage({ params }: PageProps) {
   const industry = getIndustryBySlug(slug);
   if (!industry) notFound();
 
-  const relevantJobs = industry.jobSlugs
-    .map((jobSlug) => getJobBySlug(jobSlug))
-    .filter((job): job is NonNullable<typeof job> => job !== undefined);
+  const relevantJobs = jobsOf(industry.slug);
+  const startGuide = setupGuides.find((g) => g.slug === industry.startGuide);
 
   return (
     <article>
       <h1 className="text-3xl font-bold mb-2">{industry.title}</h1>
-      <p className="text-lg text-muted mb-8">{industry.description}</p>
+      <p className="text-lg text-muted mb-6">{industry.description}</p>
+      <p className="text-muted mb-8">{industry.body}</p>
+
+      {startGuide && (
+        <section className="mb-8 p-4 bg-card border border-accent rounded-lg">
+          <h2 className="font-semibold mb-2 text-accent">Start Here</h2>
+          <Link
+            href={`/setup/${startGuide.slug}`}
+            className="text-foreground hover:text-accent transition-colors"
+          >
+            {startGuide.title}
+          </Link>
+          <p className="text-sm text-muted mt-1">{startGuide.description}</p>
+        </section>
+      )}
 
       <section>
         <h2 className="text-xl font-semibold mb-4">Relevant Jobs</h2>
@@ -48,23 +68,12 @@ export default async function IndustryPage({ params }: PageProps) {
                 {job.title}
               </h3>
               <p className="mt-1 text-sm text-muted">{job.description}</p>
-              <div className="mt-3 flex items-center gap-2 text-xs text-muted">
-                <span className="px-2 py-0.5 bg-border rounded">
-                  Primary: {job.primarySkill}
-                </span>
-              </div>
+              <p className="mt-2 text-sm text-muted">
+                <span className="text-accent">Outcome:</span> {job.outcome}
+              </p>
             </Link>
           ))}
         </div>
-      </section>
-
-      <section className="mt-8 p-4 bg-card border border-border rounded-lg">
-        <h2 className="font-semibold mb-2">Industry Notes</h2>
-        <p className="text-sm text-muted">
-          These jobs are curated for {industry.title.toLowerCase()} teams. Each
-          job includes specific prompts, approval workflows, and never-do lists
-          tailored to industry requirements.
-        </p>
       </section>
     </article>
   );

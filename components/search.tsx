@@ -3,13 +3,13 @@
 import { useState, useMemo, useCallback } from "react";
 import Link from "next/link";
 import { normalizeForSearch } from "@/lib/utils";
-import type { Content } from "@/content/types";
+import type { Kind } from "@/content/types";
 
 interface SearchableItem {
   title: string;
   description: string;
   href: string;
-  kind: Content["kind"];
+  kind: Kind;
 }
 
 interface SearchProps {

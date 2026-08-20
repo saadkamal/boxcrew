@@ -1,11 +1,11 @@
 /**
  * Content catalog index.
- * Exports all content types and collections for use across the app.
+ * Exports all content types and collections.
  */
 
 export * from "./types";
-export { setupGuides, getSetupGuideBySlug } from "./setup";
-export { skills, getSkillBySlug } from "./skills";
-export { jobs, getJobBySlug } from "./jobs";
-export { industries, getIndustryBySlug } from "./industries";
-export { pages, getPageBySlug } from "./pages";
+export { setupGuides } from "./setup";
+export { skills } from "./skills";
+export { jobs } from "./jobs";
+export { industries } from "./industries";
+export { pages } from "./pages";

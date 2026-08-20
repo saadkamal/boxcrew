@@ -1,5 +1,10 @@
 import { Layout, Card, CardGrid, Search } from "@/components";
-import { setupGuides, skills, jobs, industries } from "@/content";
+import { setupGuides } from "@/content/setup";
+import { skills } from "@/content/skills";
+import { jobs } from "@/content/jobs";
+import { industries } from "@/content/industries";
+import { pages } from "@/content/pages";
+import "@/lib/catalog"; // Import to run assertComplete() at build
 
 const searchItems = [
   ...setupGuides.map((g) => ({
@@ -26,6 +31,12 @@ const searchItems = [
     href: `/industries/${i.slug}`,
     kind: i.kind,
   })),
+  ...pages.map((p) => ({
+    title: p.title,
+    description: p.description,
+    href: `/${p.slug}`,
+    kind: p.kind,
+  })),
 ] as const;
 
 export default function HomePage() {
@@ -34,8 +45,9 @@ export default function HomePage() {
       <section className="mb-12">
         <h1 className="text-3xl font-bold mb-4">Boxcrew</h1>
         <p className="text-lg text-muted max-w-2xl">
-          Grok Bot use-case directory. Skills, jobs, and setup guides. Browse to
-          find the right configuration for your team.
+          Grok Bot use-case directory. Skills, jobs, and setup guides. Grok Bot
+          runs in a shared box tied to your Cursor account (Ultra, Teams Premium,
+          or SuperGrok Heavy). It is not Grok chat and not Cursor Cloud Agents.
         </p>
       </section>
 
@@ -63,7 +75,11 @@ export default function HomePage() {
       </section>
 
       <section className="mb-12">
-        <h2 className="text-xl font-semibold mb-4">Popular Skills</h2>
+        <h2 className="text-xl font-semibold mb-4">Skills</h2>
+        <p className="text-muted mb-4">
+          Skills produce artifacts for human review. Copy the artifact markdown
+          into your Cursor desktop.
+        </p>
         <CardGrid>
           {skills.slice(0, 6).map((skill) => (
             <Card
@@ -79,6 +95,9 @@ export default function HomePage() {
 
       <section className="mb-12">
         <h2 className="text-xl font-semibold mb-4">Jobs by Role</h2>
+        <p className="text-muted mb-4">
+          Jobs combine skills with personas, routines, and never-do lists.
+        </p>
         <CardGrid>
           {jobs.map((job) => (
             <Card
@@ -110,9 +129,8 @@ export default function HomePage() {
       <section className="p-4 bg-card border border-border rounded-lg">
         <h2 className="font-semibold mb-2">Key Principles</h2>
         <p className="text-sm text-muted">
-          Never auto-send, auto-spend, or auto-publish. Every outbound action
-          requires human approval. Grok Bot is your research assistant, draft
-          generator, and data organizer—not an autonomous actor.
+          Never auto-send, auto-spend, auto-publish, or auto-file. Every outbound
+          action requires human approval. Skills stop at a review list.
         </p>
       </section>
     </Layout>

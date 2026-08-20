@@ -1,5 +1,5 @@
 import { Layout, Sidebar } from "@/components";
-import { skills } from "@/content";
+import { skills } from "@/content/skills";
 
 const sidebarItems = skills.map((s) => ({
   slug: s.slug,

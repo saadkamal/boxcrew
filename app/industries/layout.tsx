@@ -1,5 +1,5 @@
 import { Layout, Sidebar } from "@/components";
-import { industries } from "@/content";
+import { industries } from "@/content/industries";
 
 const sidebarItems = industries.map((i) => ({
   slug: i.slug,
